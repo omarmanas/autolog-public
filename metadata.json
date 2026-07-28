@@ -1,0 +1,6 @@
+{
+  "name": "AutoLog",
+  "description": "Local-first vehicle maintenance, service history, issue, planning, and backup application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["LOCAL_INDEXEDDB_STORAGE", "JSON_BACKUP_AND_RESTORE"]
+}

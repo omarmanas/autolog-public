@@ -1,0 +1,28 @@
+node_modules/
+build/
+dist/
+coverage/
+.vite/
+server.js
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Local backups, imports, exports, and generated artifacts
+*backup*.json
+*export*.json
+*snapshot*.json
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.zip
+*.tmp
+*.cache
+
+# Editor state
+.idea/
+.vscode/
+*.swp
+*~
