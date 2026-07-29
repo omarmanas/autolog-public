@@ -3,6 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { IssueSeverity, IssueStatus, ActiveIssue } from '../../types';
 import { SeverityBadge, IssueStatusBadge } from '../common/Badges';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { EmptyState } from '../common/EmptyState';
 import { formatMileage } from '../../utils/formatters';
 import {
   AlertTriangle,
@@ -192,11 +193,11 @@ export const ActiveIssuesScreen: React.FC = () => {
       {/* Issues List */}
       <div className="space-y-4">
         {filteredIssues.length === 0 ? (
-          <div className="text-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-            <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
-            <h3 className="font-bold text-sm">No active issues found</h3>
-            <p className="text-xs text-slate-500 mt-1">All vehicle systems are currently operating cleanly!</p>
-          </div>
+          <EmptyState
+            icon={<CheckCircle2 className="w-10 h-10" />}
+            title="No active issues found"
+            description="All vehicle systems are currently operating cleanly!"
+          />
         ) : (
           filteredIssues.map((iss) => (
             <div
