@@ -209,7 +209,10 @@ function parseNum(val: any, fallback = 0): number {
 function parseDateStr(val: any): string {
   if (!val) return '';
   if (val instanceof Date) {
-    return val.toISOString().split('T')[0];
+    const year = val.getFullYear();
+    const month = String(val.getMonth() + 1).padStart(2, '0');
+    const day = String(val.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
   const str = String(val).trim();
   if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
@@ -217,7 +220,10 @@ function parseDateStr(val: any): string {
   }
   const d = new Date(str);
   if (!isNaN(d.getTime())) {
-    return d.toISOString().split('T')[0];
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
   return str;
 }
