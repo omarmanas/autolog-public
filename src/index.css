@@ -282,6 +282,118 @@
   margin-top: var(--space-1);
 }
 
+.settings-appearance-card {
+  display: grid;
+  gap: var(--space-6);
+  padding: var(--space-6);
+}
+
+.settings-appearance-card__title {
+  margin: 0;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.settings-preference-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-1) var(--space-4);
+  align-items: center;
+  margin: 0;
+  padding: var(--space-4) 0 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.settings-appearance-card > .settings-preference-row:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.settings-preference-row > .ui-form-control__label,
+.settings-preference-group > legend {
+  grid-column: 1;
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.settings-preference-row > .ui-form-control__description,
+.settings-preference-group > p {
+  grid-column: 1;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.6875rem;
+}
+
+.settings-theme-button,
+.settings-segmented-control,
+.settings-currency-control {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.settings-theme-button {
+  font-size: 0.75rem;
+}
+
+.settings-segmented-control,
+.settings-currency-control {
+  display: flex;
+  align-items: center;
+}
+
+.settings-segmented-control {
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-raised);
+}
+
+.settings-segmented-control__button {
+  min-height: 32px;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.75rem;
+}
+
+.settings-currency-control {
+  gap: var(--space-1);
+}
+
+.settings-currency-control__button {
+  width: var(--interactive-min-height);
+  padding-inline: var(--space-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .settings-preference-row {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-theme-button,
+  .settings-segmented-control,
+  .settings-currency-control {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: var(--space-2);
+  }
+
+  .settings-segmented-control {
+    width: 100%;
+  }
+
+  .settings-segmented-control__button {
+    flex: 1;
+  }
+}
+
 .ui-tabular-numerals,
 [data-numeric="mileage"],
 [data-numeric="currency"] {

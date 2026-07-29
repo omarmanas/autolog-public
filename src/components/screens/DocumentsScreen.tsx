@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { DocumentItem } from '../../types';
+import { EmptyState } from '../common/EmptyState';
 import {
   FileText,
   UploadCloud,
@@ -106,11 +107,12 @@ export const DocumentsScreen: React.FC = () => {
       {/* Documents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredDocs.length === 0 ? (
-          <div className="col-span-full text-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-            <File className="w-10 h-10 text-slate-400 mx-auto mb-2" />
-            <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">No documents found</h3>
-            <p className="text-xs text-slate-500 mt-1">Upload an invoice or document PDF to attach it to this vehicle.</p>
-          </div>
+          <EmptyState
+            className="col-span-full"
+            icon={<File className="w-10 h-10" />}
+            title="No documents found"
+            description="Upload an invoice or document PDF to attach it to this vehicle."
+          />
         ) : (
           filteredDocs.map((doc) => (
             <div

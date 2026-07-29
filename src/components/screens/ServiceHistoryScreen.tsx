@@ -4,6 +4,8 @@ import { ServiceRecord } from '../../types';
 import { ConfidenceBadge, StatusBadge } from '../common/Badges';
 import { RecordDetailModal } from '../common/RecordDetailModal';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { Button } from '../common/Button';
+import { EmptyState } from '../common/EmptyState';
 import { AddRecordScreen } from './AddRecordScreen';
 import { getProviderDisplayName, getVehicleDisplayName, formatMileage } from '../../utils/formatters';
 import {
@@ -29,6 +31,25 @@ import {
   DollarSign,
   ShieldAlert,
 } from 'lucide-react';
+
+interface ServiceHistoryEmptyStateProps {
+  onResetFilters: () => void;
+}
+
+export const ServiceHistoryEmptyState: React.FC<
+  ServiceHistoryEmptyStateProps
+> = ({ onResetFilters }) => (
+  <EmptyState
+    icon={<AlertCircle className="w-12 h-12" />}
+    title="No Service Records Found"
+    description="No service entries matched your active search query and filter criteria. Try resetting filters or log a new record."
+    action={
+      <Button onClick={onResetFilters} className="text-xs">
+        Reset Filters
+      </Button>
+    }
+  />
+);
 
 export const ServiceHistoryScreen: React.FC = () => {
   const {
@@ -376,30 +397,17 @@ export const ServiceHistoryScreen: React.FC = () => {
           <p className="text-xs font-bold text-slate-500">Loading IndexedDB records...</p>
         </div>
       ) : sortedRecords.length === 0 ? (
-        /* Empty State */
-        <div className="p-12 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm space-y-4">
-          <AlertCircle className="w-12 h-12 text-slate-400 mx-auto" />
-          <div className="space-y-1">
-            <h3 className="text-base font-extrabold">No Service Records Found</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto">
-              No service entries matched your active search query and filter criteria. Try resetting filters or log a new record.
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              setSearchQuery('');
-              setSelectedVehicleId('ALL');
-              setSelectedYear('ALL');
-              setSelectedCategory('ALL');
-              setSelectedProvider('ALL');
-              setSelectedStatus('ALL');
-              setSelectedGrade('ALL');
-            }}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors shadow-md"
-          >
-            Reset Filters
-          </button>
-        </div>
+        <ServiceHistoryEmptyState
+          onResetFilters={() => {
+            setSearchQuery('');
+            setSelectedVehicleId('ALL');
+            setSelectedYear('ALL');
+            setSelectedCategory('ALL');
+            setSelectedProvider('ALL');
+            setSelectedStatus('ALL');
+            setSelectedGrade('ALL');
+          }}
+        />
       ) : (
         /* Records Table / Cards List */
         <div className="space-y-3">

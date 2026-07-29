@@ -12,8 +12,90 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { downloadBackupArtifact } from '../../data/backup';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { FormControl } from '../common/FormControl';
 import { ImportWizardModal } from '../common/ImportWizardModal';
+
+interface DisplayAppearanceSettingsProps {
+  theme: 'light' | 'dark' | 'system';
+  toggleTheme: () => void;
+  unitSystem: 'miles' | 'km';
+  setUnitSystem: (unit: 'miles' | 'km') => void;
+  currencySymbol: string;
+  setCurrencySymbol: (symbol: string) => void;
+}
+
+export const DisplayAppearanceSettings: React.FC<
+  DisplayAppearanceSettingsProps
+> = ({
+  theme,
+  toggleTheme,
+  unitSystem,
+  setUnitSystem,
+  currencySymbol,
+  setCurrencySymbol,
+}) => (
+  <Card className="settings-appearance-card">
+    <h3 className="settings-appearance-card__title">Display & Appearance</h3>
+
+    <FormControl
+      className="settings-preference-row"
+      label="Color Theme"
+      description="Toggle between dark and light display modes"
+    >
+      <Button
+        onClick={toggleTheme}
+        variant="secondary"
+        className="settings-theme-button"
+      >
+        {theme === 'dark' ? (
+          <Sun className="w-4 h-4 text-amber-400" />
+        ) : (
+          <Moon className="w-4 h-4 text-indigo-600" />
+        )}
+        <span className="capitalize">{theme} Theme</span>
+      </Button>
+    </FormControl>
+
+    <fieldset className="settings-preference-row settings-preference-group">
+      <legend>Odometer Distance Unit</legend>
+      <p>Choose between miles and kilometers</p>
+      <div className="settings-segmented-control">
+        {(['miles', 'km'] as const).map((unit) => (
+          <Button
+            key={unit}
+            onClick={() => setUnitSystem(unit)}
+            variant={unitSystem === unit ? 'primary' : 'ghost'}
+            aria-pressed={unitSystem === unit}
+            className="settings-segmented-control__button"
+          >
+            {unit === 'miles' ? 'Miles (mi)' : 'Kilometers (km)'}
+          </Button>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset className="settings-preference-row settings-preference-group">
+      <legend>Currency Symbol</legend>
+      <p>Choose the symbol used for financial displays</p>
+      <div className="settings-currency-control">
+        {['$', '€', '£', 'C$'].map((symbol) => (
+          <Button
+            key={symbol}
+            onClick={() => setCurrencySymbol(symbol)}
+            variant={currencySymbol === symbol ? 'primary' : 'secondary'}
+            aria-pressed={currencySymbol === symbol}
+            className="settings-currency-control__button"
+          >
+            {symbol}
+          </Button>
+        ))}
+      </div>
+    </fieldset>
+  </Card>
+);
 
 export const SettingsScreen: React.FC = () => {
   const {
@@ -104,85 +186,14 @@ export const SettingsScreen: React.FC = () => {
         </button>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-6">
-        <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-200 dark:border-slate-800">
-          Display & Appearance
-        </h3>
-
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="font-semibold text-xs text-slate-900 dark:text-slate-100">
-              Color Theme
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Toggle between dark and light display modes
-            </p>
-          </div>
-          <button
-            onClick={toggleTheme}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-bold text-xs bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-indigo-600" />
-            )}
-            <span className="capitalize">{theme} Theme</span>
-          </button>
-        </div>
-
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-          <div>
-            <div className="font-semibold text-xs text-slate-900 dark:text-slate-100">
-              Odometer Distance Unit
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Choose between miles and kilometers
-            </p>
-          </div>
-          <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
-            {(['miles', 'km'] as const).map((unit) => (
-              <button
-                key={unit}
-                onClick={() => setUnitSystem(unit)}
-                className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                  unitSystem === unit
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-slate-500'
-                }`}
-              >
-                {unit === 'miles' ? 'Miles (mi)' : 'Kilometers (km)'}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-          <div>
-            <div className="font-semibold text-xs text-slate-900 dark:text-slate-100">
-              Currency Symbol
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Choose the symbol used for financial displays
-            </p>
-          </div>
-          <div className="flex items-center gap-1">
-            {['$', '€', '£', 'C$'].map((symbol) => (
-              <button
-                key={symbol}
-                onClick={() => setCurrencySymbol(symbol)}
-                className={`w-8 h-8 rounded-lg font-mono font-bold text-xs transition-colors border ${
-                  currencySymbol === symbol
-                    ? 'bg-indigo-600 text-white border-indigo-600'
-                    : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
-                }`}
-              >
-                {symbol}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <DisplayAppearanceSettings
+        theme={theme}
+        toggleTheme={toggleTheme}
+        unitSystem={unitSystem}
+        setUnitSystem={setUnitSystem}
+        currencySymbol={currencySymbol}
+        setCurrencySymbol={setCurrencySymbol}
+      />
 
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
         <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">

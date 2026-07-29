@@ -3,6 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { MaintenancePlan, MaintenanceRuleStatus } from '../../types';
 import { MaintenanceStatusBadge } from '../common/Badges';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { EmptyState } from '../common/EmptyState';
 import {
   CalendarCheck,
   Gauge,
@@ -183,13 +184,11 @@ export const MaintenancePlannerScreen: React.FC = () => {
       {/* Tasks Table & Cards */}
       <div className="space-y-4">
         {vehicleTasks.length === 0 ? (
-          <div className="p-12 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm space-y-3">
-            <CalendarCheck className="w-10 h-10 text-slate-400 mx-auto" />
-            <h3 className="font-bold text-sm">No Maintenance Plans Defined</h3>
-            <p className="text-xs text-slate-500">
-              Create a custom maintenance schedule for oil changes, tire rotations, or spark plugs.
-            </p>
-          </div>
+          <EmptyState
+            icon={<CalendarCheck className="w-10 h-10" />}
+            title="No Maintenance Plans Defined"
+            description="Create a custom maintenance schedule for oil changes, tire rotations, or spark plugs."
+          />
         ) : (
           vehicleTasks.map((task) => {
             const milesRemaining = task.dueMileage - activeVehicle.currentMileage;
