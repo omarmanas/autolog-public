@@ -1,8 +1,28 @@
+import { readFileSync } from 'node:fs';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { AlertCircle, CheckCircle2, Info, XCircle } from 'lucide-react';
 import { describe, expect, it } from 'vitest';
 import { ToastMessage } from './Toast';
+
+const stylesheet = readFileSync(
+  new URL('../../index.css', import.meta.url),
+  'utf8'
+);
+
+describe('toast interaction behavior', () => {
+  it('keeps both the wrapper and visual Card non-interactive', () => {
+    const toastCardRule = stylesheet.match(/\.toast-card\s*\{([^}]*)\}/)?.[1];
+    const toastSource = readFileSync(
+      new URL('./Toast.tsx', import.meta.url),
+      'utf8'
+    );
+
+    expect(toastSource).toContain('pointer-events-none');
+    expect(toastCardRule).toContain('pointer-events: none');
+    expect(toastCardRule).not.toContain('pointer-events: auto');
+  });
+});
 
 describe.each([
   ['success', CheckCircle2, 'Saved successfully', 'status'],

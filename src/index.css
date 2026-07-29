@@ -535,7 +535,7 @@ body,
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  pointer-events: auto;
+  pointer-events: none;
   backdrop-filter: blur(12px);
 }
 
