@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { APP_VERSION_LABEL } from '../../appMetadata';
+import { Card } from '../common/Card';
 import {
   BookOpenCheck,
   Layers,
@@ -124,7 +125,7 @@ export const ProjectBlueprintScreen: React.FC = () => {
       {activeTab === 'dataLayerSpec' && (
         <div className="space-y-6">
           {/* Data Layer Principles Card */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <Card className="blueprint-card space-y-4">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 <Server className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -136,7 +137,7 @@ export const ProjectBlueprintScreen: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-              <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <Card variant="raised" className="blueprint-info-card space-y-1.5">
                 <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                   <DollarSign className="w-4 h-4 text-emerald-500" />
                   <span>Monetary Values</span>
@@ -144,9 +145,9 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   All money is stored as numeric USD values (<code className="font-mono text-blue-600 dark:text-blue-400">number</code>). Invoice totals, actual payments, processing fees, labor, parts, tax, credits, and estimates are strictly separated in accounting.
                 </p>
-              </div>
+              </Card>
 
-              <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <Card variant="raised" className="blueprint-info-card space-y-1.5">
                 <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                   <FileText className="w-4 h-4 text-blue-500" />
                   <span>ISO Dates & Miles</span>
@@ -154,9 +155,9 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   Dates are stored in ISO format (<code className="font-mono text-blue-600 dark:text-blue-400">YYYY-MM-DD</code>). Odometer values are stored in miles as integers/floats. Records with unknown dates or mileage are fully supported via precision flags.
                 </p>
-              </div>
+              </Card>
 
-              <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <Card variant="raised" className="blueprint-info-card space-y-1.5">
                 <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                   <Lock className="w-4 h-4 text-amber-500" />
                   <span>Completion Integrity Rule</span>
@@ -164,12 +165,12 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   Recommended, Planned, or Declined service entries are NEVER treated as completed maintenance. They maintain explicit status badges and separate status workflows.
                 </p>
-              </div>
+              </Card>
             </div>
-          </div>
+          </Card>
 
           {/* ServiceRecord Specification Card */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <Card className="blueprint-card space-y-4">
             <h3 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <Code2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               <span>ServiceRecord Specifications & Supported Fields</span>
@@ -234,11 +235,11 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Supported Statuses & Grades List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-3">
+            <Card className="blueprint-card blueprint-card--compact space-y-3">
               <h3 className="font-extrabold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-blue-600" />
                 <span>13 Supported ServiceRecord Statuses</span>
@@ -265,9 +266,9 @@ export const ProjectBlueprintScreen: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-3">
+            <Card className="blueprint-card blueprint-card--compact space-y-3">
               <h3 className="font-extrabold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 <span>5 Confidence Grades (A through E)</span>
@@ -286,14 +287,14 @@ export const ProjectBlueprintScreen: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       )}
 
       {/* Tab: 12 TypeScript Interfaces */}
       {activeTab === 'schema' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+        <Card className="blueprint-card space-y-6">
           <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Database className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <span>12 Complete TypeScript Model Interfaces</span>
@@ -320,20 +321,20 @@ export const ProjectBlueprintScreen: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Tab: Product Scope */}
       {activeTab === 'scope' && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <Card className="blueprint-card space-y-4">
             <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <Compass className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               <span>Product Scope & Vision</span>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
-              <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+              <Card variant="raised" className="blueprint-info-card space-y-2">
                 <h3 className="font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider text-[11px]">
                   Core Purpose & Boundaries
                 </h3>
@@ -343,25 +344,25 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 <p className="text-slate-700 dark:text-slate-300 font-semibold">
                   The application starts empty, supports multiple vehicles, and offers an optional fictional demo dataset.
                 </p>
-              </div>
+              </Card>
 
-              <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+              <Card variant="raised" className="blueprint-info-card space-y-2">
                 <h3 className="font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider text-[11px]">
                   Target User Persona
                 </h3>
                 <p className="text-slate-700 dark:text-slate-300">
                   DIY vehicle enthusiasts and personal vehicle owners who want structured, invoice-backed service history rather than messy paper gloves in the glovebox or untracked memory logs.
                 </p>
-              </div>
+              </Card>
             </div>
-          </div>
+          </Card>
         </div>
       )}
 
       {/* Tab: Grades */}
       {activeTab === 'grades' && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <Card className="blueprint-card space-y-4">
             <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               <span>Confidence-Grade Verification Matrix (A to E)</span>
@@ -375,22 +376,26 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 { grade: 'Grade D', badge: 'bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30', title: 'User-confirmed only', desc: 'Unbacked historical entry added from owner memory without date, exact mileage, or receipts.' },
                 { grade: 'Grade E', badge: 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border-slate-500/30', title: 'Planned, estimated or unresolved', desc: 'Scheduled future work, estimate, or open diagnostic defect.' },
               ].map((g, idx) => (
-                <div key={idx} className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-1">
+                <Card
+                  key={idx}
+                  variant="raised"
+                  className="blueprint-info-card space-y-1"
+                >
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-0.5 rounded text-xs font-bold border ${g.badge}`}>{g.grade}</span>
                     <span className="font-bold text-slate-900 dark:text-slate-100">{g.title}</span>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed pl-1">{g.desc}</p>
-                </div>
+                </Card>
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       )}
 
       {/* Tab: MVP & Roadmap */}
       {activeTab === 'roadmap' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+        <Card className="blueprint-card space-y-6">
           <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <span>MVP Features vs Later-Phase Roadmap</span>
@@ -426,13 +431,13 @@ export const ProjectBlueprintScreen: React.FC = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Tab: Risks */}
       {activeTab === 'risks' && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <Card className="blueprint-card space-y-4">
             <h2 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-amber-500" />
               <span>Risk Matrix & Operational Mitigations</span>
@@ -444,14 +449,18 @@ export const ProjectBlueprintScreen: React.FC = () => {
                 { risk: 'Risk: Mileage Rollback / Discrepancy', impact: 'A user logs a new service record with lower mileage than previous logs.', mitigation: 'Enforce automatic validation checks when updating odometer readings.' },
                 { risk: 'Risk: Recommendations Marked as Complete', impact: 'Inaccurate service history leading to false maintenance claims.', mitigation: 'Explicit separation of 13 statuses. Recommended and Planned entries cannot be saved as Completed without verification.' },
               ].map((r, idx) => (
-                <div key={idx} className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 space-y-1">
+                <Card
+                  key={idx}
+                  variant="raised"
+                  className="blueprint-info-card space-y-1"
+                >
                   <div className="font-bold text-amber-600 dark:text-amber-400">{r.risk}</div>
                   <p className="text-slate-600 dark:text-slate-300 font-medium">Impact: {r.impact}</p>
                   <p className="text-blue-600 dark:text-blue-400 font-semibold">Mitigation Strategy: {r.mitigation}</p>
-                </div>
+                </Card>
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       )}
     </div>

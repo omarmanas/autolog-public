@@ -44,6 +44,25 @@ export const DocumentsFilterCard: React.FC<DocumentsFilterCardProps> = ({
   </Card>
 );
 
+interface DocumentViewButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const DocumentViewButton: React.FC<DocumentViewButtonProps> = ({
+  onClick,
+}) => (
+  <Button
+    onClick={onClick}
+    variant="secondary"
+    iconOnly
+    aria-label="View / Download File"
+    title="View / Download File"
+    className="shrink-0"
+  >
+    <Download className="w-4 h-4" />
+  </Button>
+);
+
 export const DocumentsScreen: React.FC = () => {
   const { documents, activeVehicle, addDocument } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -154,13 +173,9 @@ export const DocumentsScreen: React.FC = () => {
                 </div>
               </div>
 
-              <button
+              <DocumentViewButton
                 onClick={() => alert(`Simulated document view/download for sample file: ${doc.fileName}`)}
-                className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 shrink-0"
-                title="View / Download File"
-              >
-                <Download className="w-4 h-4" />
-              </button>
+              />
             </div>
           ))
         )}

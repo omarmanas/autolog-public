@@ -53,6 +53,24 @@ export const IssueSeverityFilterCard: React.FC<
   </Card>
 );
 
+interface IssueEditButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const IssueEditButton: React.FC<IssueEditButtonProps> = ({
+  onClick,
+}) => (
+  <Button
+    onClick={onClick}
+    variant="secondary"
+    iconOnly
+    aria-label="Edit Issue"
+    title="Edit Issue"
+  >
+    <Edit className="w-4 h-4 text-indigo-500" />
+  </Button>
+);
+
 export const ActiveIssuesScreen: React.FC = () => {
   const {
     issues,
@@ -246,13 +264,9 @@ export const ActiveIssuesScreen: React.FC = () => {
                     </button>
                   )}
 
-                  <button
+                  <IssueEditButton
                     onClick={() => openEditModal(iss)}
-                    className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
-                    title="Edit Issue"
-                  >
-                    <Edit className="w-4 h-4 text-indigo-500" />
-                  </button>
+                  />
 
                   <button
                     onClick={() => setDeletingIssueId(iss.id)}

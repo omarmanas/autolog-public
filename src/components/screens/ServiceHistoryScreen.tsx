@@ -52,6 +52,24 @@ export const ServiceHistoryEmptyState: React.FC<
   />
 );
 
+interface RecordEditButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const RecordEditButton: React.FC<RecordEditButtonProps> = ({
+  onClick,
+}) => (
+  <Button
+    onClick={onClick}
+    variant="secondary"
+    iconOnly
+    aria-label="Edit Record"
+    title="Edit Record"
+  >
+    <Edit className="w-4 h-4 text-indigo-500" />
+  </Button>
+);
+
 export const ServiceHistoryScreen: React.FC = () => {
   const {
     records,
@@ -489,13 +507,9 @@ export const ServiceHistoryScreen: React.FC = () => {
                       <span className="hidden sm:inline">Details</span>
                     </button>
 
-                    <button
+                    <RecordEditButton
                       onClick={() => setEditingRecord(rec)}
-                      className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold transition-colors"
-                      title="Edit Record"
-                    >
-                      <Edit className="w-4 h-4 text-indigo-500" />
-                    </button>
+                    />
 
                     <button
                       onClick={() => setDeletingRecordId(rec.id)}

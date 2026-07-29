@@ -21,6 +21,22 @@ import {
   X,
 } from 'lucide-react';
 
+interface PlanEditButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const PlanEditButton: React.FC<PlanEditButtonProps> = ({ onClick }) => (
+  <Button
+    onClick={onClick}
+    variant="secondary"
+    iconOnly
+    aria-label="Edit Plan"
+    title="Edit Plan"
+  >
+    <Edit className="w-4 h-4 text-indigo-500" />
+  </Button>
+);
+
 export const MaintenancePlannerScreen: React.FC = () => {
   const {
     maintenanceTasks,
@@ -239,13 +255,9 @@ export const MaintenancePlannerScreen: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-1">
-                      <button
+                      <PlanEditButton
                         onClick={() => openEditModal(task)}
-                        className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
-                        title="Edit Plan"
-                      >
-                        <Edit className="w-4 h-4 text-indigo-500" />
-                      </button>
+                      />
 
                       <button
                         onClick={() => setDeletingPlanId(task.id)}

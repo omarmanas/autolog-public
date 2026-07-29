@@ -331,6 +331,18 @@
   padding: var(--space-6);
 }
 
+.blueprint-card {
+  padding: var(--space-6);
+}
+
+.blueprint-card--compact {
+  padding: var(--space-4);
+}
+
+.blueprint-info-card {
+  padding: var(--space-4);
+}
+
 @media (max-width: 639px) {
   .screen-filter-card--inline {
     align-items: stretch;
