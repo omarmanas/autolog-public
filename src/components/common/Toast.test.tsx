@@ -22,6 +22,25 @@ describe('toast interaction behavior', () => {
     expect(toastCardRule).toContain('pointer-events: none');
     expect(toastCardRule).not.toContain('pointer-events: auto');
   });
+
+  it('keeps mobile margins and uses the desktop content offset', () => {
+    const toastSource = readFileSync(
+      new URL('./Toast.tsx', import.meta.url),
+      'utf8'
+    );
+    const desktopRule = stylesheet.match(
+      /@media \(min-width: 768px\)\s*\{\s*\.toast-region\s*\{([\s\S]*?)\}\s*\}/
+    )?.[1];
+
+    expect(toastSource).toContain('top-4');
+    expect(toastSource).toContain('right-4');
+    expect(desktopRule).toContain(
+      'top: calc(var(--layout-header-height) + var(--space-4))'
+    );
+    expect(desktopRule).toContain('var(--layout-sidebar-width)');
+    expect(desktopRule).toContain('var(--layout-content-max-width)');
+    expect(desktopRule).toContain('var(--space-8)');
+  });
 });
 
 describe.each([

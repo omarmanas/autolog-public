@@ -29,6 +29,10 @@
   --space-8: 32px;
   --space-12: 48px;
 
+  --layout-sidebar-width: 16rem;
+  --layout-header-height: 4rem;
+  --layout-content-max-width: 80rem;
+
   --radius-control: 8px;
   --radius-card: 12px;
   --radius-modal: 16px;
@@ -569,6 +573,22 @@ body,
 
 .toast-region {
   width: min(24rem, calc(100vw - var(--space-8)));
+}
+
+@media (min-width: 768px) {
+  .toast-region {
+    top: calc(var(--layout-header-height) + var(--space-4));
+    right: max(
+      var(--space-8),
+      calc(
+        (
+            100vw - var(--layout-sidebar-width) -
+              var(--layout-content-max-width)
+          ) /
+          2 + var(--space-8)
+      )
+    );
+  }
 }
 
 .ui-badge {
