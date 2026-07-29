@@ -67,32 +67,32 @@ export const DashboardScreen: React.FC = () => {
       </div>
 
       {/* Main Vehicle Hero Card */}
-      <div className="bg-slate-900 text-white rounded-xl p-5 sm:p-6 shadow-xl relative overflow-hidden border border-slate-800">
+      <div className="dashboard-vehicle-card dark:bg-slate-900 dark:text-white dark:border-slate-800 rounded-xl p-5 sm:p-6 shadow-xl relative overflow-hidden border">
         <div className="absolute top-0 right-0 transform translate-x-8 -translate-y-8 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-800 text-xs font-mono font-medium border border-slate-700">
-              <Car className="w-3.5 h-3.5 text-blue-400" />
+            <div className="dashboard-vehicle-meta dark:bg-slate-800 dark:border-slate-700 inline-flex items-center gap-2 px-2.5 py-1 rounded text-xs font-mono font-medium border">
+              <Car className="dashboard-vehicle-accent w-3.5 h-3.5" />
               <span>VIN: {activeVehicle.vin}</span>
-              <span className="text-slate-500">•</span>
+              <span className="dashboard-vehicle-secondary dark:text-slate-500">•</span>
               <span>Plate: {activeVehicle.licensePlate}</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+            <h2 className="dashboard-vehicle-title dark:text-white text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
               <span className="w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
               {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 font-medium">
+            <p className="dashboard-vehicle-secondary dark:text-slate-300 text-xs sm:text-sm font-medium">
               {activeVehicle.trim} • {activeVehicle.engine} • {activeVehicle.transmission}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 text-center sm:text-right">
-              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Current Mileage</div>
-              <div className="text-xl sm:text-2xl font-bold font-mono text-blue-400">
-                {formatMileage(activeVehicle?.currentMileage, 'Not documented', false)} <span className="text-xs text-slate-400 font-normal">mi</span>
+            <div className="dashboard-vehicle-mileage dark:bg-slate-800 dark:border-slate-700 border rounded-lg p-3 text-center sm:text-right">
+              <div className="dashboard-vehicle-label dark:text-slate-400 text-[10px] uppercase font-bold tracking-wider">Current Mileage</div>
+              <div className="dashboard-vehicle-accent text-xl sm:text-2xl font-bold font-mono">
+                {formatMileage(activeVehicle?.currentMileage, 'Not documented', false)} <span className="dashboard-vehicle-label dark:text-slate-400 text-xs font-normal">mi</span>
               </div>
             </div>
 
@@ -107,22 +107,22 @@ export const DashboardScreen: React.FC = () => {
         </div>
 
         {/* Specs quick bar */}
-        <div className="mt-6 pt-4 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div className="dashboard-vehicle-specs dark:border-slate-800 mt-6 pt-4 border-t grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div>
-            <span className="text-slate-400 block text-[10px]">Oil Spec</span>
-            <span className="font-medium text-slate-200">{activeVehicle.oilSpecification}</span>
+            <span className="dashboard-vehicle-label dark:text-slate-400 block text-[10px]">Oil Spec</span>
+            <span className="dashboard-vehicle-value dark:text-slate-200 font-medium">{activeVehicle.oilSpecification}</span>
           </div>
           <div>
-            <span className="text-slate-400 block text-[10px]">Tire Fitment</span>
-            <span className="font-medium text-slate-200">{activeVehicle.tireSize}</span>
+            <span className="dashboard-vehicle-label dark:text-slate-400 block text-[10px]">Tire Fitment</span>
+            <span className="dashboard-vehicle-value dark:text-slate-200 font-medium">{activeVehicle.tireSize}</span>
           </div>
           <div>
-            <span className="text-slate-400 block text-[10px]">Fuel Spec</span>
-            <span className="font-medium text-slate-200">{activeVehicle.fuelType}</span>
+            <span className="dashboard-vehicle-label dark:text-slate-400 block text-[10px]">Fuel Spec</span>
+            <span className="dashboard-vehicle-value dark:text-slate-200 font-medium">{activeVehicle.fuelType}</span>
           </div>
           <div>
-            <span className="text-slate-400 block text-[10px]">Color Code</span>
-            <span className="font-medium text-slate-200">{activeVehicle.color}</span>
+            <span className="dashboard-vehicle-label dark:text-slate-400 block text-[10px]">Color Code</span>
+            <span className="dashboard-vehicle-value dark:text-slate-200 font-medium">{activeVehicle.color}</span>
           </div>
         </div>
       </div>

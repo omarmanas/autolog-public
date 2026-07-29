@@ -133,6 +133,34 @@ body,
   );
 }
 
+:where(.dashboard-vehicle-card) {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+:where(.dashboard-vehicle-meta, .dashboard-vehicle-mileage) {
+  border-color: var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+:where(.dashboard-vehicle-title, .dashboard-vehicle-value) {
+  color: var(--color-text-primary);
+}
+
+:where(.dashboard-vehicle-secondary, .dashboard-vehicle-label) {
+  color: var(--color-text-secondary);
+}
+
+:where(.dashboard-vehicle-accent) {
+  color: var(--color-primary);
+}
+
+:where(.dashboard-vehicle-specs) {
+  border-color: var(--color-border);
+}
+
 @media (max-width: 767px) {
   :root {
     --interactive-min-height: 44px;
