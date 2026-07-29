@@ -1,10 +1,43 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { createFictionalImportWorkbook } from '../../test/fixtures';
 import {
   evaluateReconciliationGate,
   parseImportFile,
 } from '../../utils/importParser';
-import { checkCanContinueStep2 } from './ImportWizardModal';
+import {
+  checkCanContinueStep2,
+  IMPORT_FILE_ACCEPT,
+  isSupportedImportFileName,
+  parseSupportedImportFile,
+} from './ImportWizardModal';
+
+describe('ImportWizardModal file format validation', () => {
+  it('limits the file picker to XLSX and XLS workbooks', () => {
+    expect(IMPORT_FILE_ACCEPT).toBe('.xlsx,.xls');
+  });
+
+  it.each(['maintenance.xlsx', 'legacy-maintenance.xls', 'FLEET.XLSX'])(
+    'accepts supported Excel workbook file %s',
+    (fileName) => {
+      expect(isSupportedImportFileName(fileName)).toBe(true);
+    }
+  );
+
+  it('rejects CSV before reading or parsing the file', async () => {
+    const arrayBuffer = vi.fn<() => Promise<ArrayBuffer>>();
+    const file = {
+      name: 'maintenance.csv',
+      arrayBuffer,
+    };
+
+    await expect(
+      parseSupportedImportFile(file, 'test-import-vehicle')
+    ).rejects.toThrow(
+      'Unsupported file format. Select an Excel workbook (.xlsx or .xls).'
+    );
+    expect(arrayBuffer).not.toHaveBeenCalled();
+  });
+});
 
 describe('ImportWizardModal Step 2 navigation gate', () => {
   const bytes = createFictionalImportWorkbook();

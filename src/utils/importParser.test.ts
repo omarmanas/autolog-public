@@ -211,7 +211,7 @@ describe('generic import parser', () => {
     expect(parsed.errors).toEqual([]);
   });
 
-  it('continues to parse CSV input without throwing', () => {
+  it('documents internal SheetJS CSV parsing without implying product support', () => {
     const csv = [
       'Record ID,Service Date,Provider,Category,Status,Work Performed',
       'CSV001,2025-08-12,CSV Service Shop,Maintenance,Completed,CSV import',

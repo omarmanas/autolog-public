@@ -35,6 +35,8 @@ interface Props {
   onClose: () => void;
 }
 
+export const IMPORT_FILE_ACCEPT = '.xlsx,.xls';
+
 export function checkCanContinueStep2(
   parsedData: ParsedWorkbookData | null,
   selectedSheets: Record<string, boolean>,
@@ -60,6 +62,24 @@ export function checkCanContinueStep2(
   return true;
 }
 
+export function isSupportedImportFileName(fileName: string): boolean {
+  return /\.(xlsx|xls)$/i.test(fileName.trim());
+}
+
+export async function parseSupportedImportFile(
+  file: Pick<File, 'name' | 'arrayBuffer'>,
+  vehicleId: string
+): Promise<ParsedWorkbookData> {
+  if (!isSupportedImportFileName(file.name)) {
+    throw new Error(
+      'Unsupported file format. Select an Excel workbook (.xlsx or .xls).'
+    );
+  }
+
+  const buffer = await file.arrayBuffer();
+  return parseImportFile(buffer, file.name, vehicleId);
+}
+
 export function ImportWizardModal({ isOpen, onClose }: Props) {
   const { activeVehicle, records, addImportBatch, rollbackImportBatch, currencySymbol } = useApp();
 
@@ -81,8 +101,6 @@ export function ImportWizardModal({ isOpen, onClose }: Props) {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setSelectedFile(file);
-      setFileName(file.name);
       await processFile(file);
     }
   };
@@ -90,8 +108,9 @@ export function ImportWizardModal({ isOpen, onClose }: Props) {
   const processFile = async (file: File) => {
     setIsProcessing(true);
     try {
-      const buffer = await file.arrayBuffer();
-      const data = parseImportFile(buffer, file.name, activeVehicle.id);
+      const data = await parseSupportedImportFile(file, activeVehicle.id);
+      setSelectedFile(file);
+      setFileName(file.name);
       setParsedData(data);
 
       const sheetsObj: Record<string, boolean> = {};
@@ -231,7 +250,7 @@ export function ImportWizardModal({ isOpen, onClose }: Props) {
             </div>
             <div>
               <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
-                Excel / CSV / JSON Import Wizard
+                Excel Workbook Import Wizard
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Target Vehicle: <span className="font-semibold text-slate-700 dark:text-slate-300">{activeVehicle.year} {activeVehicle.make} {activeVehicle.model}</span> (VIN: {activeVehicle.vin || 'N/A'})
@@ -285,14 +304,14 @@ export function ImportWizardModal({ isOpen, onClose }: Props) {
                   Upload Maintenance History Workbook
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-                  Supports <span className="font-semibold text-slate-700 dark:text-slate-300">.xlsx, .csv, .json</span> (e.g. Vehicle_Maintenance_History.xlsx)
+                  Supports Excel workbook files only: <span className="font-semibold text-slate-700 dark:text-slate-300">.xlsx and .xls</span> (e.g. Vehicle_Maintenance_History.xlsx)
                 </p>
 
                 <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition-colors cursor-pointer shadow-md">
                   <span>Browse File</span>
                   <input
                     type="file"
-                    accept=".xlsx, .xls, .csv, .json"
+                    accept={IMPORT_FILE_ACCEPT}
                     onChange={handleFileChange}
                     className="hidden"
                   />
