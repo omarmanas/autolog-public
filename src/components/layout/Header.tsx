@@ -83,14 +83,14 @@ export const Header: React.FC = () => {
   const activeInfo = titles[currentScreen] || { title: 'AutoLog', sub: 'Fleet Maintenance' };
 
   return (
-    <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 px-6 shadow-sm flex items-center justify-between">
+    <header className="app-header h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 shadow-sm flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* Mobile Logo Brand */}
         <div className="flex md:hidden items-center gap-2">
           <div className="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">
             <Wrench className="w-4 h-4" />
           </div>
-          <span className="font-bold text-base text-slate-900 dark:text-slate-100 tracking-tight">
+          <span className="app-header__brand-label font-bold text-base text-slate-900 dark:text-slate-100 tracking-tight">
             AutoLog
           </span>
         </div>
@@ -118,13 +118,14 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Vehicle Switcher & Quick Actions */}
-      <div className="flex items-center gap-3">
+      <div className="app-header__actions flex items-center">
         {/* Dropdown Selector */}
         <div className="relative">
           <select
             value={activeVehicleId}
             onChange={(e) => setActiveVehicleId(e.target.value)}
-            className="appearance-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-semibold border border-slate-200 dark:border-slate-700 rounded-md py-1.5 pl-3 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer max-w-[160px] sm:max-w-[220px] truncate"
+            aria-label="Active vehicle"
+            className="app-header__vehicle-select appearance-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-semibold border border-slate-200 dark:border-slate-700 rounded-md py-1.5 pl-3 pr-8 cursor-pointer truncate"
           >
             {vehicles.map((v) => (
               <option key={v.id} value={v.id}>
@@ -138,7 +139,8 @@ export const Header: React.FC = () => {
         {/* Quick Add Record Button */}
         <button
           onClick={() => setCurrentScreen('add-record')}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-colors flex items-center gap-1.5"
+          aria-label="Add record"
+          className="app-header__quick-add bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-colors flex items-center gap-1.5"
           title="Log New Service"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />

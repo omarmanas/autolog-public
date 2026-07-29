@@ -270,10 +270,11 @@ export const ServiceHistoryScreen: React.FC = () => {
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
+              aria-label="Search service records"
               placeholder="Search by title, work performed, shop, RO #, part numbers, notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-medium border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-medium border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-slate-900 dark:text-slate-100"
             />
           </div>
 
@@ -284,7 +285,8 @@ export const ServiceHistoryScreen: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="w-full bg-transparent font-bold text-slate-900 dark:text-slate-100 focus:outline-none"
+                aria-label="Sort service records"
+                className="screen-filter-native-control w-full bg-transparent font-bold text-slate-900 dark:text-slate-100"
               >
                 <option value="newest">Newest Date</option>
                 <option value="oldest">Oldest Date</option>
@@ -303,7 +305,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedVehicleId}
               onChange={(e) => setSelectedVehicleId(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              aria-label="Vehicle"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
             >
               <option value="ALL">All Vehicles</option>
               {vehicles.map((v) => (
@@ -320,7 +323,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              aria-label="Year"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
             >
               <option value="ALL">All Years</option>
               {availableYears.map((y) => (
@@ -337,7 +341,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              aria-label="Category"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
             >
               <option value="ALL">All Categories</option>
               <option value="Maintenance">Maintenance</option>
@@ -358,7 +363,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedProvider}
               onChange={(e) => setSelectedProvider(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
+              aria-label="Provider"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
             >
               <option value="ALL">All Providers</option>
               {availableProviders.map((p) => (
@@ -375,7 +381,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
+              aria-label="Status"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
             >
               <option value="ALL">All Statuses</option>
               <option value="Completed">Completed</option>
@@ -396,7 +403,8 @@ export const ServiceHistoryScreen: React.FC = () => {
             <select
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              aria-label="Confidence grade"
+              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
             >
               <option value="ALL">All Grades</option>
               <option value="A">Grade A (Verified Invoice)</option>

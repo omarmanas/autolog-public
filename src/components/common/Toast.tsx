@@ -39,7 +39,7 @@ export const ToastNotification: React.FC = () => {
   if (!toast) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50 max-w-sm w-full animate-bounce-short pointer-events-none">
+    <div className="toast-region fixed top-4 right-4 z-50 animate-bounce-short pointer-events-none">
       <ToastMessage message={toast.message} type={toast.type} />
     </div>
   );

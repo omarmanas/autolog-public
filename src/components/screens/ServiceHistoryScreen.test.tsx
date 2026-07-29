@@ -1,9 +1,18 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
+import { useApp } from '../../context/AppContext';
+import { TEST_VEHICLES } from '../../test/fixtures';
 import { Button } from '../common/Button';
 import { EmptyState } from '../common/EmptyState';
-import { ServiceHistoryEmptyState } from './ServiceHistoryScreen';
+import {
+  ServiceHistoryEmptyState,
+  ServiceHistoryScreen,
+} from './ServiceHistoryScreen';
+
+vi.mock('../../context/AppContext', () => ({
+  useApp: vi.fn(),
+}));
 
 describe('ServiceHistoryEmptyState', () => {
   it('renders through EmptyState and preserves the reset action', () => {
@@ -22,5 +31,35 @@ describe('ServiceHistoryEmptyState', () => {
 
     expect(onResetFilters).toHaveBeenCalledOnce();
     expect(renderToStaticMarkup(view)).toContain('Reset Filters');
+  });
+});
+
+describe('ServiceHistoryScreen filters', () => {
+  it('provides stable names for every search, sort, and filter control', () => {
+    vi.mocked(useApp).mockReturnValue({
+      records: [],
+      vehicles: TEST_VEHICLES,
+      activeVehicleId: TEST_VEHICLES[0].id,
+      setActiveVehicleId: vi.fn(),
+      setCurrentScreen: vi.fn(),
+      deleteRecord: vi.fn(),
+      currencySymbol: '$',
+      isLoading: false,
+    } as unknown as ReturnType<typeof useApp>);
+
+    const markup = renderToStaticMarkup(<ServiceHistoryScreen />);
+
+    [
+      'Search service records',
+      'Sort service records',
+      'Vehicle',
+      'Year',
+      'Category',
+      'Provider',
+      'Status',
+      'Confidence grade',
+    ].forEach((name) => {
+      expect(markup).toContain(`aria-label="${name}"`);
+    });
   });
 });
