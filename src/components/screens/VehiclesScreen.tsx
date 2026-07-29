@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Vehicle } from '../../types';
 import { createEntityId } from '../../utils/ids';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import {
   Car,
   Plus,
@@ -164,7 +166,7 @@ export const VehiclesScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6">
       {/* Header & Action */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Car className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -175,14 +177,14 @@ export const VehiclesScreen: React.FC = () => {
           </p>
         </div>
 
-        <button
+        <Button
           onClick={openAddModal}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-lg shadow-md transition-colors flex items-center gap-2 shrink-0"
+          className="text-xs shrink-0"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>Add Fleet Vehicle</span>
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {/* Vehicle Cards List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

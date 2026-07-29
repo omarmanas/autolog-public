@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { formatMileage } from '../../utils/formatters';
 import { calculateCostAnalytics } from '../../utils/costAnalytics';
+import { Card } from '../common/Card';
+import { FormControl } from '../common/FormControl';
 import {
   BarChart3,
   DollarSign,
@@ -36,7 +38,7 @@ export const CostsScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold flex items-center gap-2">
             <BarChart3 className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -52,12 +54,10 @@ export const CostsScreen: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-500">Scope:</span>
+        <FormControl className="screen-inline-filter" label="Scope:">
           <select
             value={selectedVehicleId}
             onChange={(e) => setSelectedVehicleId(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-800 font-bold border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs"
           >
             <option value="ALL">All Fleet Vehicles</option>
             {vehicles.map((v) => (
@@ -66,12 +66,12 @@ export const CostsScreen: React.FC = () => {
               </option>
             ))}
           </select>
-        </div>
-      </div>
+        </FormControl>
+      </Card>
 
       {/* Top Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-1">
+        <Card className="screen-content-card space-y-1">
           <div className="text-xs text-slate-400 font-bold uppercase">Total Actual Documented Spend</div>
           <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">
             {currencySymbol}{totalSpent.toFixed(2)}
@@ -79,9 +79,9 @@ export const CostsScreen: React.FC = () => {
           <div className="text-[11px] text-slate-500">
             Across {targetRecordsCount} in-scope records
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-1">
+        <Card className="screen-content-card space-y-1">
           <div className="text-xs text-slate-400 font-bold uppercase">Cost Per Odometer Mile</div>
           <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400 font-mono">
             {currencySymbol}{costPerMile} <span className="text-xs font-normal text-slate-400">/mi</span>
@@ -89,9 +89,9 @@ export const CostsScreen: React.FC = () => {
           <div className="text-[11px] text-slate-500">
             Odometer: {selectedVehicleId === 'ALL' ? 'Fleet Total ' : ''}{formatMileage(selectedMileage, 'Not documented')}
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-1">
+        <Card className="screen-content-card space-y-1">
           <div className="text-xs text-slate-400 font-bold uppercase">Parts Investment</div>
           <div className="text-2xl font-black text-slate-900 dark:text-slate-100 font-mono">
             {currencySymbol}{totalParts.toFixed(2)}
@@ -99,9 +99,9 @@ export const CostsScreen: React.FC = () => {
           <div className="text-[11px] text-slate-500">
             {((totalParts / Math.max(1, totalSpent)) * 100).toFixed(0)}% of total expenditure
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-1">
+        <Card className="screen-content-card space-y-1">
           <div className="text-xs text-slate-400 font-bold uppercase">Labor Expenses</div>
           <div className="text-2xl font-black text-sky-600 dark:text-sky-400 font-mono">
             {currencySymbol}{totalLabor.toFixed(2)}
@@ -109,13 +109,13 @@ export const CostsScreen: React.FC = () => {
           <div className="text-[11px] text-slate-500">
             {((totalLabor / Math.max(1, totalSpent)) * 100).toFixed(0)}% of total expenditure
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Breakdown by Category & Year */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Expense Summary by Category */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+        <Card className="screen-content-card screen-content-card--spacious space-y-4">
           <h3 className="font-bold text-sm flex items-center gap-2">
             <PieChart className="w-4 h-4 text-indigo-500" />
             <span>Expenditure by Category</span>
@@ -146,10 +146,10 @@ export const CostsScreen: React.FC = () => {
               })
             )}
           </div>
-        </div>
+        </Card>
 
         {/* Expense Summary by Year */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+        <Card className="screen-content-card screen-content-card--spacious space-y-4">
           <h3 className="font-bold text-sm flex items-center gap-2">
             <Calendar className="w-4 h-4 text-emerald-500" />
             <span>Annual Expenditure Summary</span>
@@ -181,7 +181,7 @@ export const CostsScreen: React.FC = () => {
               })
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

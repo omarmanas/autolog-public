@@ -2,8 +2,11 @@ import React, { useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { IssueSeverity, IssueStatus, ActiveIssue } from '../../types';
 import { SeverityBadge, IssueStatusBadge } from '../common/Badges';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { EmptyState } from '../common/EmptyState';
+import { FormControl } from '../common/FormControl';
 import { formatMileage } from '../../utils/formatters';
 import {
   AlertTriangle,
@@ -25,6 +28,30 @@ export function parseOptionalIssueMileage(value: string): number | undefined {
   const parsed = Number(value);
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : undefined;
 }
+
+interface IssueSeverityFilterCardProps {
+  selectedSeverity: string;
+  onSeverityChange: React.ChangeEventHandler<HTMLSelectElement>;
+  resultCount: number;
+}
+
+export const IssueSeverityFilterCard: React.FC<
+  IssueSeverityFilterCardProps
+> = ({ selectedSeverity, onSeverityChange, resultCount }) => (
+  <Card className="screen-filter-card screen-filter-card--inline">
+    <FormControl className="screen-inline-filter" label="Filter Severity:">
+      <select value={selectedSeverity} onChange={onSeverityChange}>
+        <option value="ALL">All Severities</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Critical">Critical</option>
+      </select>
+    </FormControl>
+
+    <div className="screen-filter-count">Showing {resultCount} issues</div>
+  </Card>
+);
 
 export const ActiveIssuesScreen: React.FC = () => {
   const {
@@ -145,7 +172,7 @@ export const ActiveIssuesScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold flex items-center gap-2">
             <AlertTriangle className="w-6 h-6 text-amber-500" />
@@ -159,36 +186,21 @@ export const ActiveIssuesScreen: React.FC = () => {
           </p>
         </div>
 
-        <button
+        <Button
           onClick={openAddModal}
-          className="bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md transition-colors flex items-center gap-2 shrink-0"
+          className="text-xs shrink-0"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>Report New Issue</span>
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {/* Filter Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
-          <span>Filter Severity:</span>
-          <select
-            value={selectedSeverity}
-            onChange={(e) => setSelectedSeverity(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 font-bold"
-          >
-            <option value="ALL">All Severities</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-            <option value="Critical">Critical</option>
-          </select>
-        </div>
-
-        <div className="text-xs font-mono font-semibold text-slate-500">
-          Showing {filteredIssues.length} issues
-        </div>
-      </div>
+      <IssueSeverityFilterCard
+        selectedSeverity={selectedSeverity}
+        onSeverityChange={(e) => setSelectedSeverity(e.target.value)}
+        resultCount={filteredIssues.length}
+      />
 
       {/* Issues List */}
       <div className="space-y-4">

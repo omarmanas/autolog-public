@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { MaintenancePlan, MaintenanceRuleStatus } from '../../types';
 import { MaintenanceStatusBadge } from '../common/Badges';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { EmptyState } from '../common/EmptyState';
 import {
@@ -126,7 +128,7 @@ export const MaintenancePlannerScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold flex items-center gap-2">
             <CalendarCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -142,15 +144,15 @@ export const MaintenancePlannerScreen: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={openAddModal}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-md transition-colors flex items-center gap-2 shrink-0"
+            className="text-xs shrink-0"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>New Plan</span>
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
 
       {/* Projection Calculator Card */}
       <div className="bg-indigo-900 text-white p-5 rounded-2xl shadow-lg border border-indigo-800 space-y-4">

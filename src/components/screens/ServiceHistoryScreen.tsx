@@ -5,6 +5,7 @@ import { ConfidenceBadge, StatusBadge } from '../common/Badges';
 import { RecordDetailModal } from '../common/RecordDetailModal';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import { EmptyState } from '../common/EmptyState';
 import { AddRecordScreen } from './AddRecordScreen';
 import { getProviderDisplayName, getVehicleDisplayName, formatMileage } from '../../utils/formatters';
@@ -213,7 +214,7 @@ export const ServiceHistoryScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold flex items-center gap-2">
             <History className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -241,10 +242,10 @@ export const ServiceHistoryScreen: React.FC = () => {
             <span>Add Record</span>
           </button>
         </div>
-      </div>
+      </Card>
 
       {/* Multi-Filter & Search Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-3 text-xs">
+      <Card className="screen-filter-card space-y-3 text-xs">
         {/* Row 1: Search & Sort */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="relative md:col-span-2">
@@ -388,7 +389,7 @@ export const ServiceHistoryScreen: React.FC = () => {
             </select>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Loading State */}
       {isLoading ? (

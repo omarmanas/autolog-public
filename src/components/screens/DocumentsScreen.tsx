@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { DocumentItem } from '../../types';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
 import { EmptyState } from '../common/EmptyState';
+import { FormControl } from '../common/FormControl';
 import {
   FileText,
   UploadCloud,
@@ -13,6 +16,33 @@ import {
   X,
   File,
 } from 'lucide-react';
+
+interface DocumentsFilterCardProps {
+  selectedCategory: string;
+  onCategoryChange: React.ChangeEventHandler<HTMLSelectElement>;
+  resultCount: number;
+}
+
+export const DocumentsFilterCard: React.FC<DocumentsFilterCardProps> = ({
+  selectedCategory,
+  onCategoryChange,
+  resultCount,
+}) => (
+  <Card className="screen-filter-card screen-filter-card--inline">
+    <FormControl className="screen-inline-filter" label="Filter Category:">
+      <select value={selectedCategory} onChange={onCategoryChange}>
+        <option value="ALL">All Categories</option>
+        <option value="Invoice">Invoices</option>
+        <option value="Manual">Manuals</option>
+        <option value="Registration">Registration</option>
+        <option value="Warranty">Warranty</option>
+        <option value="Inspection">Inspection</option>
+      </select>
+    </FormControl>
+
+    <div className="screen-filter-count">Showing {resultCount} files</div>
+  </Card>
+);
 
 export const DocumentsScreen: React.FC = () => {
   const { documents, activeVehicle, addDocument } = useApp();
@@ -61,7 +91,7 @@ export const DocumentsScreen: React.FC = () => {
   return (
     <div className="space-y-6 pb-20 md:pb-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-xl shadow-sm">
+      <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <FileText className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -72,37 +102,21 @@ export const DocumentsScreen: React.FC = () => {
           </p>
         </div>
 
-        <button
+        <Button
           onClick={() => setShowUploadModal(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-lg shadow-md transition-colors flex items-center gap-2 shrink-0"
+          className="text-xs shrink-0"
         >
           <UploadCloud className="w-4 h-4 stroke-[2.5]" />
           <span>Upload Document</span>
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {/* Filter Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
-          <span>Filter Category:</span>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 font-bold"
-          >
-            <option value="ALL">All Categories</option>
-            <option value="Invoice">Invoices</option>
-            <option value="Manual">Manuals</option>
-            <option value="Registration">Registration</option>
-            <option value="Warranty">Warranty</option>
-            <option value="Inspection">Inspection</option>
-          </select>
-        </div>
-
-        <div className="text-xs font-mono font-semibold text-slate-500">
-          Showing {filteredDocs.length} files
-        </div>
-      </div>
+      <DocumentsFilterCard
+        selectedCategory={selectedCategory}
+        onCategoryChange={(e) => setSelectedCategory(e.target.value)}
+        resultCount={filteredDocs.length}
+      />
 
       {/* Documents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
