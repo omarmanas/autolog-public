@@ -2,6 +2,8 @@
 
 AutoLog is a local-first vehicle maintenance application for tracking vehicles, service records, active issues, maintenance plans, document metadata, and operating costs.
 
+Live application: https://omarmanas.github.io/autolog-public/
+
 ## Data and privacy
 
 Application data is stored in the browser's IndexedDB database for the current origin. AutoLog has no cloud synchronization, and changing browsers, profiles, devices, or origins does not transfer local data automatically.
@@ -24,19 +26,28 @@ The Settings screen exports a versioned full-application JSON backup with a SHA-
 
 Backups are local files. Keep them in a secure location appropriate for the vehicle information they contain.
 
+## Supported imports
+
+The Import Wizard supports Excel workbook files in XLSX and legacy XLS formats.
+
 ## Local development
 
-Prerequisites: a current Node.js release.
+Prerequisite: Bun 1.3.14.
 
 ```bash
-npm install
-npm run dev
+bun install --frozen-lockfile
+bun run dev
+```
+
+Production build:
+
+```bash
+bun run build
 ```
 
 Verification:
 
 ```bash
-npm run lint
-npm run build
-npx vitest run
+bun run lint
+bunx vitest run
 ```

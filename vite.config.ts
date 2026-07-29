@@ -19,8 +19,9 @@ if (
   throw new Error('package.json must define a non-empty version.');
 }
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
   return {
+    base: mode === 'production' ? '/autolog-public/' : '/',
     plugins: [react(), tailwindcss()],
     define: {
       __APP_VERSION__: JSON.stringify(packageMetadata.version),
