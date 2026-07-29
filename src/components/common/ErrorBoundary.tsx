@@ -1,5 +1,7 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { Button } from './Button';
+import { Card } from './Card';
 
 interface Props {
   children: ReactNode;
@@ -11,6 +13,46 @@ interface State {
   error: Error | null;
   errorInfo: ErrorInfo | null;
 }
+
+interface ErrorBoundaryFallbackProps {
+  error: Error | null;
+  onReset: () => void;
+  onReload: () => void;
+}
+
+export const ErrorBoundaryFallback: React.FC<
+  ErrorBoundaryFallbackProps
+> = ({ error, onReset, onReload }) => (
+  <div className="error-boundary">
+    <Card className="error-boundary__card">
+      <div className="error-boundary__icon" aria-hidden="true">
+        <AlertTriangle className="w-6 h-6" />
+      </div>
+
+      <div className="space-y-1">
+        <h2 className="text-lg font-bold">Something went wrong</h2>
+        <p className="error-boundary__description">
+          A component error occurred while rendering this screen view.
+        </p>
+      </div>
+
+      {error && (
+        <div className="error-boundary__diagnostic">{error.toString()}</div>
+      )}
+
+      <div className="flex items-center justify-center gap-3 pt-2">
+        <Button onClick={onReset} className="text-xs">
+          <RefreshCw className="w-3.5 h-3.5" />
+          <span>Try Again</span>
+        </Button>
+
+        <Button variant="secondary" onClick={onReload} className="text-xs">
+          Reload Page
+        </Button>
+      </div>
+    </Card>
+  </div>
+);
 
 export class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -42,43 +84,11 @@ export class ErrorBoundary extends React.Component<Props, State> {
       }
 
       return (
-        <div className="min-h-[400px] flex items-center justify-center p-6 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-xl space-y-4 text-center">
-            <div className="w-12 h-12 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">
-              <AlertTriangle className="w-6 h-6" />
-            </div>
-
-            <div className="space-y-1">
-              <h2 className="text-lg font-bold">Something went wrong</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                A component error occurred while rendering this screen view.
-              </p>
-            </div>
-
-            {this.state.error && (
-              <div className="p-3 bg-rose-500/5 border border-rose-500/20 rounded-xl text-left text-[11px] font-mono text-rose-700 dark:text-rose-300 overflow-x-auto max-h-32">
-                {this.state.error.toString()}
-              </div>
-            )}
-
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <button
-                onClick={this.handleReset}
-                className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition-colors shadow-md flex items-center gap-1.5"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Try Again</span>
-              </button>
-
-              <button
-                onClick={() => window.location.reload()}
-                className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              >
-                Reload Page
-              </button>
-            </div>
-          </div>
-        </div>
+        <ErrorBoundaryFallback
+          error={this.state.error}
+          onReset={this.handleReset}
+          onReload={() => window.location.reload()}
+        />
       );
     }
 

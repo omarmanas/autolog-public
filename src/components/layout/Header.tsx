@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { ScreenType } from '../../types';
+import { Button } from '../common/Button';
 import {
   Wrench,
   Moon,
@@ -9,6 +10,50 @@ import {
   BookOpenCheck,
   ChevronDown,
 } from 'lucide-react';
+
+interface BlueprintHeaderButtonProps {
+  isActive: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const BlueprintHeaderButton: React.FC<
+  BlueprintHeaderButtonProps
+> = ({ isActive, onClick }) => (
+  <Button
+    onClick={onClick}
+    variant={isActive ? 'primary' : 'secondary'}
+    iconOnly
+    aria-label="Project Blueprint"
+    aria-pressed={isActive}
+    title="Project Blueprint"
+  >
+    <BookOpenCheck className="w-4 h-4" />
+  </Button>
+);
+
+interface ThemeHeaderButtonProps {
+  theme: 'light' | 'dark' | 'system';
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const ThemeHeaderButton: React.FC<ThemeHeaderButtonProps> = ({
+  theme,
+  onClick,
+}) => (
+  <Button
+    onClick={onClick}
+    variant="secondary"
+    iconOnly
+    aria-label="Toggle theme"
+    title="Toggle theme"
+  >
+    {theme === 'dark' ? (
+      <Sun className="w-4 h-4 text-amber-400" />
+    ) : (
+      <Moon className="w-4 h-4 text-blue-600" />
+    )}
+  </Button>
+);
 
 export const Header: React.FC = () => {
   const {
@@ -101,26 +146,16 @@ export const Header: React.FC = () => {
         </button>
 
         {/* Quick Blueprint Link */}
-        <button
+        <BlueprintHeaderButton
           onClick={() => setCurrentScreen('blueprint')}
-          className={`p-1.5 rounded-md text-xs font-semibold transition-colors flex items-center justify-center border ${
-            currentScreen === 'blueprint'
-              ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400'
-              : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-          }`}
-          title="Project Blueprint"
-        >
-          <BookOpenCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-        </button>
+          isActive={currentScreen === 'blueprint'}
+        />
 
         {/* Theme Toggle */}
-        <button
+        <ThemeHeaderButton
           onClick={toggleTheme}
-          className="p-1.5 rounded-md text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center"
-          title="Toggle theme"
-        >
-          {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-600" />}
-        </button>
+          theme={theme}
+        />
       </div>
     </header>
   );

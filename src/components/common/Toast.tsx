@@ -1,12 +1,19 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { CheckCircle2, AlertCircle, Info, XCircle } from 'lucide-react';
+import { Card } from './Card';
 
-export const ToastNotification: React.FC = () => {
-  const { toast } = useApp();
+type ToastSeverity = 'success' | 'info' | 'warning' | 'error';
 
-  if (!toast) return null;
+interface ToastMessageProps {
+  message: string;
+  type: ToastSeverity;
+}
 
+export const ToastMessage: React.FC<ToastMessageProps> = ({
+  message,
+  type,
+}) => {
   const icons = {
     success: <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />,
     info: <Info className="w-5 h-5 text-blue-500 shrink-0" />,
@@ -15,11 +22,25 @@ export const ToastNotification: React.FC = () => {
   };
 
   return (
+    <Card
+      className="toast-card"
+      role={type === 'error' ? 'alert' : 'status'}
+      aria-atomic="true"
+    >
+      {icons[type]}
+      <p className="text-xs font-medium leading-snug flex-1">{message}</p>
+    </Card>
+  );
+};
+
+export const ToastNotification: React.FC = () => {
+  const { toast } = useApp();
+
+  if (!toast) return null;
+
+  return (
     <div className="fixed top-4 right-4 z-50 max-w-sm w-full animate-bounce-short pointer-events-none">
-      <div className="bg-slate-900/95 dark:bg-slate-100/95 text-slate-100 dark:text-slate-900 border border-slate-700 dark:border-slate-300 shadow-xl rounded-lg p-3.5 flex items-center gap-3 backdrop-blur-md pointer-events-auto">
-        {icons[toast.type]}
-        <p className="text-xs font-medium leading-snug flex-1">{toast.message}</p>
-      </div>
+      <ToastMessage message={toast.message} type={toast.type} />
     </div>
   );
 };
