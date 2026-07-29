@@ -350,6 +350,43 @@
   padding: var(--space-2) var(--space-3);
 }
 
+.record-detail-modal .ui-modal__header {
+  align-items: flex-start;
+}
+
+.record-detail-heading {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.record-detail-heading__title {
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.record-detail-heading__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.record-detail-modal .ui-modal__body {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.record-detail-card {
+  padding: var(--space-3);
+}
+
+.record-detail-card--spacious {
+  padding: var(--space-4);
+}
+
 @media (max-width: 639px) {
   .screen-filter-card--inline {
     align-items: stretch;

@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { ServiceRecord, Vehicle } from '../../types';
 import { ConfidenceBadge, StatusBadge } from './Badges';
+import { Button } from './Button';
+import { Card } from './Card';
 import { ConfirmDialog } from './ConfirmDialog';
+import {
+  ModalShell,
+  PASSIVE_MODAL_BEHAVIOR,
+} from './ModalShell';
 import { getProviderDisplayName, getVehicleDisplayName, formatMileage } from '../../utils/formatters';
 import {
   FileText,
-  X,
   Calendar,
   Gauge,
   MapPin,
@@ -31,6 +36,48 @@ interface RecordDetailModalProps {
   onEdit: (record: ServiceRecord) => void;
   onDelete: (recordId: string) => Promise<void>;
 }
+
+interface RecordDetailActionsProps {
+  onRequestDelete: () => void;
+  onClose: () => void;
+  onEdit: () => void;
+}
+
+export const RecordDetailActions: React.FC<RecordDetailActionsProps> = ({
+  onRequestDelete,
+  onClose,
+  onEdit,
+}) => (
+  <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+    <button
+      onClick={onRequestDelete}
+      className="px-4 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-bold flex items-center gap-1.5 transition-colors"
+    >
+      <Trash2 className="w-4 h-4" />
+      <span>Delete Record</span>
+    </button>
+
+    <div className="flex items-center gap-2">
+      <Button variant="secondary" onClick={onClose} className="text-xs">
+        Close
+      </Button>
+
+      <Button onClick={onEdit} className="text-xs">
+        <Edit className="w-4 h-4" />
+        <span>Edit Record</span>
+      </Button>
+    </div>
+  </div>
+);
+
+export const handoffRecordEdit = (
+  record: ServiceRecord,
+  onClose: () => void,
+  onEdit: (record: ServiceRecord) => void
+) => {
+  onClose();
+  onEdit(record);
+};
 
 export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
   record,
@@ -61,12 +108,11 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto text-slate-900 dark:text-slate-100">
-          {/* Top Bar */}
-          <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2">
+      <ModalShell
+        isOpen
+        title={
+          <span className="record-detail-heading">
+              <span className="flex flex-wrap items-center gap-2">
                 <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-600 dark:text-indigo-400">
                   {record.category}
                 </span>
@@ -78,13 +124,13 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                     <span>Verification Needed</span>
                   </span>
                 )}
-              </div>
+              </span>
 
-              <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 flex items-center gap-2 mt-1">
+              <span className="record-detail-heading__title">
                 <span>{record.title || record.workPerformed}</span>
-              </h2>
+              </span>
 
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+              <span className="record-detail-heading__meta">
                 <span>
                   {vehicle ? `${vehicle.year} ${vehicle.make} ${vehicle.model}` : 'Vehicle'}
                 </span>
@@ -96,19 +142,16 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                     </span>
                   </>
                 )}
-              </p>
-            </div>
-
-            <button
-              onClick={onClose}
-              className="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+              </span>
+          </span>
+        }
+        onClose={onClose}
+        {...PASSIVE_MODAL_BEHAVIOR}
+        className="record-detail-modal max-w-2xl"
+      >
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 text-xs">
+          <Card variant="raised" className="record-detail-card grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
             <div>
               <span className="text-[10px] text-slate-400 font-bold uppercase block">Service Date</span>
               <div className="font-mono font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-1 mt-0.5">
@@ -147,7 +190,7 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                 Invoice Total: {currencySymbol}{finalTotal.toFixed(2)}
               </span>
             </div>
-          </div>
+          </Card>
 
           {/* Work Performed & Complaint Reason */}
           <div className="space-y-3 text-xs">
@@ -162,14 +205,14 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
               </div>
             )}
 
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-1">
+            <Card variant="raised" className="record-detail-card space-y-1">
               <span className="font-bold text-slate-700 dark:text-slate-300 block uppercase text-[10px] tracking-wider">
                 Work Performed & Diagnostic Findings
               </span>
               <p className="text-slate-800 dark:text-slate-200 font-medium whitespace-pre-wrap leading-relaxed">
                 {record.workPerformed || 'No work performed detail provided.'}
               </p>
-            </div>
+            </Card>
           </div>
 
           {/* Parts Replaced Section */}
@@ -180,7 +223,7 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                 <span>Parts Replaced ({record.partsReplaced.length})</span>
               </span>
 
-              <div className="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800">
+              <Card variant="raised" className="divide-y divide-slate-200 dark:divide-slate-800">
                 {record.partsReplaced.map((p, idx) => (
                   <div key={idx} className="p-3 flex items-center justify-between text-xs">
                     <div>
@@ -194,7 +237,7 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                     </span>
                   </div>
                 ))}
-              </div>
+              </Card>
             </div>
           )}
 
@@ -206,7 +249,7 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                 <span>Fluids & Materials ({record.fluidsAndMaterials.length})</span>
               </span>
 
-              <div className="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800">
+              <Card variant="raised" className="divide-y divide-slate-200 dark:divide-slate-800">
                 {record.fluidsAndMaterials.map((f, idx) => (
                   <div key={idx} className="p-3 flex items-center justify-between text-xs">
                     <div>
@@ -220,12 +263,12 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                     </span>
                   </div>
                 ))}
-              </div>
+              </Card>
             </div>
           )}
 
           {/* Financial Itemized Accounting */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
+          <Card variant="raised" className="record-detail-card record-detail-card--spacious space-y-3 text-xs">
             <span className="font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
               <DollarSign className="w-4 h-4 text-emerald-500" />
               <span>Financial Accounting Breakdown</span>
@@ -265,18 +308,18 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
                 <span className="font-bold text-slate-900 dark:text-slate-100">{currencySymbol}{actualPayment.toFixed(2)}</span>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Notes & Evidence Source */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             {record.notes && (
-              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-1">
+              <Card variant="raised" className="record-detail-card space-y-1">
                 <span className="font-bold text-slate-700 dark:text-slate-300 block uppercase text-[10px]">Notes</span>
                 <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{record.notes}</p>
-              </div>
+              </Card>
             )}
 
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-1">
+            <Card variant="raised" className="record-detail-card space-y-1">
               <span className="font-bold text-slate-700 dark:text-slate-300 block uppercase text-[10px]">Source & Evidence</span>
               <p className="text-slate-600 dark:text-slate-300">
                 Source Type: <span className="font-bold">{record.sourceType || 'UserEntry'}</span>
@@ -290,41 +333,16 @@ export const RecordDetailModal: React.FC<RecordDetailModalProps> = ({
               {record.duplicateGroupId && (
                 <p className="text-[10px] text-slate-400 font-mono">Duplicate Group ID: {record.duplicateGroupId}</p>
               )}
-            </div>
+            </Card>
           </div>
 
           {/* Bottom Action Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
-            <button
-              onClick={() => setShowConfirmDelete(true)}
-              className="px-4 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-bold flex items-center gap-1.5 transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-              <span>Delete Record</span>
-            </button>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                Close
-              </button>
-
-              <button
-                onClick={() => {
-                  onClose();
-                  onEdit(record);
-                }}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-md flex items-center gap-1.5 transition-colors"
-              >
-                <Edit className="w-4 h-4" />
-                <span>Edit Record</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+          <RecordDetailActions
+            onRequestDelete={() => setShowConfirmDelete(true)}
+            onClose={onClose}
+            onEdit={() => handoffRecordEdit(record, onClose, onEdit)}
+          />
+      </ModalShell>
 
       <ConfirmDialog
         isOpen={showConfirmDelete}
