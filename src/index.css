@@ -741,6 +741,10 @@ body,
   gap: var(--space-3);
 }
 
+.app-header__title-block {
+  overflow-wrap: anywhere;
+}
+
 .app-header__vehicle-select,
 .app-header__quick-add {
   min-height: var(--interactive-min-height);
@@ -769,6 +773,12 @@ body,
   padding-inline: var(--space-2);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.75rem;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-header {
+    padding-block: var(--space-2);
+  }
 }
 
 @media (max-width: 639px) {

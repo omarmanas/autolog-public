@@ -83,8 +83,8 @@ export const Header: React.FC = () => {
   const activeInfo = titles[currentScreen] || { title: 'AutoLog', sub: 'Fleet Maintenance' };
 
   return (
-    <header className="app-header h-16 border-b sticky top-0 z-30 shadow-sm flex items-center justify-between">
-      <div className="flex items-center gap-4">
+    <header className="app-header min-h-16 border-b sticky top-0 z-30 shadow-sm flex items-center justify-between">
+      <div className="app-header__context min-w-0 flex items-center gap-4">
         {/* Mobile Logo Brand */}
         <div className="flex md:hidden items-center gap-2">
           <div className="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">
@@ -96,8 +96,8 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Desktop Title Header */}
-        <div className="hidden md:block">
-          <h2 className="text-base font-bold tracking-tight leading-none">
+        <div className="app-header__title-block hidden min-w-0 md:block">
+          <h2 className="text-base font-bold tracking-tight leading-tight">
             {activeInfo.title}
           </h2>
           <p className="app-header__subtitle text-xs font-medium mt-0.5">
