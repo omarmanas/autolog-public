@@ -230,7 +230,7 @@ export const ServiceHistoryScreen: React.FC = () => {
   const scopeTotal = selectedVehicleId === 'ALL' ? records.length : records.filter((r) => r.vehicleId === selectedVehicleId).length;
 
   return (
-    <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
+    <div className="screen-root space-y-6 pb-20 md:pb-6">
       {/* Header Bar */}
       <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -274,19 +274,19 @@ export const ServiceHistoryScreen: React.FC = () => {
               placeholder="Search by title, work performed, shop, RO #, part numbers, notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-medium border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-slate-900 dark:text-slate-100"
+              className="screen-filter-native-control w-full font-medium border rounded-xl pl-9 pr-3 py-2"
             />
           </div>
 
           <div>
-            <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5">
+            <div className="screen-filter-control-shell flex items-center gap-2 border rounded-xl px-3 py-1.5">
               <ArrowUpDown className="w-4 h-4 text-indigo-500 shrink-0" />
               <span className="font-bold text-[11px] text-slate-500 shrink-0">Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
                 aria-label="Sort service records"
-                className="screen-filter-native-control w-full bg-transparent font-bold text-slate-900 dark:text-slate-100"
+                className="screen-filter-native-control screen-filter-native-control--transparent w-full font-bold"
               >
                 <option value="newest">Newest Date</option>
                 <option value="oldest">Oldest Date</option>
@@ -306,7 +306,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedVehicleId}
               onChange={(e) => setSelectedVehicleId(e.target.value)}
               aria-label="Vehicle"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5"
             >
               <option value="ALL">All Vehicles</option>
               {vehicles.map((v) => (
@@ -324,7 +324,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
               aria-label="Year"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5"
             >
               <option value="ALL">All Years</option>
               {availableYears.map((y) => (
@@ -342,7 +342,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               aria-label="Category"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5"
             >
               <option value="ALL">All Categories</option>
               <option value="Maintenance">Maintenance</option>
@@ -364,7 +364,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedProvider}
               onChange={(e) => setSelectedProvider(e.target.value)}
               aria-label="Provider"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5 truncate"
             >
               <option value="ALL">All Providers</option>
               {availableProviders.map((p) => (
@@ -382,7 +382,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
               aria-label="Status"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5 truncate"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5 truncate"
             >
               <option value="ALL">All Statuses</option>
               <option value="Completed">Completed</option>
@@ -404,7 +404,7 @@ export const ServiceHistoryScreen: React.FC = () => {
               value={selectedGrade}
               onChange={(e) => setSelectedGrade(e.target.value)}
               aria-label="Confidence grade"
-              className="screen-filter-native-control w-full bg-slate-50 dark:bg-slate-800 font-semibold border border-slate-200 dark:border-slate-700 rounded-lg p-1.5"
+              className="screen-filter-native-control w-full font-semibold border rounded-lg p-1.5"
             >
               <option value="ALL">All Grades</option>
               <option value="A">Grade A (Verified Invoice)</option>
@@ -419,7 +419,7 @@ export const ServiceHistoryScreen: React.FC = () => {
 
       {/* Loading State */}
       {isLoading ? (
-        <div className="p-12 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm space-y-3">
+        <div className="token-surface p-12 text-center border rounded-2xl shadow-sm space-y-3">
           <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-xs font-bold text-slate-500">Loading IndexedDB records...</p>
         </div>
@@ -446,7 +446,7 @@ export const ServiceHistoryScreen: React.FC = () => {
             return (
               <div
                 key={rec.id}
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl p-4 shadow-sm transition-all hover:shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                className="token-surface token-surface--interactive border rounded-2xl p-4 shadow-sm transition-all hover:shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
               >
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">

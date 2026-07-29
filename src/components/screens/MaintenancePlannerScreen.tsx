@@ -146,7 +146,7 @@ export const MaintenancePlannerScreen: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
+    <div className="screen-root space-y-6 pb-20 md:pb-6">
       {/* Header */}
       <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -223,10 +223,10 @@ export const MaintenancePlannerScreen: React.FC = () => {
             return (
               <div
                 key={task.id}
-                className={`bg-white dark:bg-slate-900 border rounded-2xl p-5 shadow-sm space-y-3 transition-all ${
+                className={`token-surface border rounded-2xl p-5 shadow-sm space-y-3 transition-all ${
                   isOverdue
-                    ? 'border-rose-500/40 bg-rose-500/5 dark:bg-rose-500/5'
-                    : 'border-slate-200 dark:border-slate-800'
+                    ? 'token-surface--error'
+                    : ''
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

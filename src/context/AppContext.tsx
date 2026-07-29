@@ -123,6 +123,18 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+export const applyResolvedTheme = (
+  root: Pick<HTMLElement, 'classList' | 'dataset'>,
+  resolvedTheme: 'light' | 'dark'
+) => {
+  if (resolvedTheme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+  root.dataset.theme = resolvedTheme;
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [initializationError, setInitializationError] = useState<string | null>(null);
@@ -218,11 +230,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Sync dark class on html document
   useEffect(() => {
-    if (resolvedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    applyResolvedTheme(document.documentElement, resolvedTheme);
     localStorage.setItem('autolog_theme', theme);
   }, [theme, resolvedTheme]);
 

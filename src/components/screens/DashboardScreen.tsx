@@ -130,7 +130,7 @@ export const DashboardScreen: React.FC = () => {
       {/* Metrics Cards Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1 */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+        <div className="token-surface border rounded-xl p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Actual Documented Payments</span>
             <div className="p-2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400">
@@ -146,7 +146,7 @@ export const DashboardScreen: React.FC = () => {
         </div>
 
         {/* Metric 2 */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+        <div className="token-surface border rounded-xl p-4 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Cost / Mile</span>
             <div className="p-2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400">
@@ -164,7 +164,7 @@ export const DashboardScreen: React.FC = () => {
         {/* Metric 3 */}
         <div
           onClick={() => setCurrentScreen('issues')}
-          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-500/50 transition-colors"
+          className="token-surface token-surface--warning-hover border rounded-xl p-4 shadow-sm flex flex-col justify-between cursor-pointer transition-colors"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Active Issues</span>
@@ -188,7 +188,7 @@ export const DashboardScreen: React.FC = () => {
         {/* Metric 4 */}
         <div
           onClick={() => setCurrentScreen('history')}
-          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-colors"
+          className="token-surface token-surface--primary-hover border rounded-xl p-4 shadow-sm flex flex-col justify-between cursor-pointer transition-colors"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Confidence Rating</span>
@@ -208,7 +208,7 @@ export const DashboardScreen: React.FC = () => {
       {/* Two Column Layout: Active Issues & Maintenance Watchlist */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Issues Watchlist */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+        <div className="token-surface border rounded-xl p-5 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
             <h3 className="font-bold text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
@@ -249,7 +249,7 @@ export const DashboardScreen: React.FC = () => {
         </div>
 
         {/* Upcoming Maintenance Tasks */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+        <div className="token-surface border rounded-xl p-5 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
             <h3 className="font-bold text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
@@ -294,7 +294,7 @@ export const DashboardScreen: React.FC = () => {
       </div>
 
       {/* Recent Service History Table Preview */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+      <div className="token-surface border rounded-xl p-5 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
           <h3 className="font-bold text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <span className="w-2 h-2 bg-blue-500 rounded-full"></span>

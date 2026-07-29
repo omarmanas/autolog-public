@@ -36,7 +36,7 @@ export const CostsScreen: React.FC = () => {
   const sortedYears = Object.keys(yearTotals).sort().reverse();
 
   return (
-    <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
+    <div className="screen-root space-y-6 pb-20 md:pb-6">
       {/* Header */}
       <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>

@@ -83,24 +83,24 @@ export const Header: React.FC = () => {
   const activeInfo = titles[currentScreen] || { title: 'AutoLog', sub: 'Fleet Maintenance' };
 
   return (
-    <header className="app-header h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 shadow-sm flex items-center justify-between">
+    <header className="app-header h-16 border-b sticky top-0 z-30 shadow-sm flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* Mobile Logo Brand */}
         <div className="flex md:hidden items-center gap-2">
           <div className="w-8 h-8 rounded bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">
             <Wrench className="w-4 h-4" />
           </div>
-          <span className="app-header__brand-label font-bold text-base text-slate-900 dark:text-slate-100 tracking-tight">
+          <span className="app-header__brand-label font-bold text-base tracking-tight">
             AutoLog
           </span>
         </div>
 
         {/* Desktop Title Header */}
         <div className="hidden md:block">
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-none">
+          <h2 className="text-base font-bold tracking-tight leading-none">
             {activeInfo.title}
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+          <p className="app-header__subtitle text-xs font-medium mt-0.5">
             {activeInfo.sub}
           </p>
         </div>
@@ -125,7 +125,7 @@ export const Header: React.FC = () => {
             value={activeVehicleId}
             onChange={(e) => setActiveVehicleId(e.target.value)}
             aria-label="Active vehicle"
-            className="app-header__vehicle-select appearance-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-semibold border border-slate-200 dark:border-slate-700 rounded-md py-1.5 pl-3 pr-8 cursor-pointer truncate"
+            className="app-header__vehicle-select appearance-none text-xs font-semibold border rounded-md py-1.5 pl-3 pr-8 cursor-pointer truncate"
           >
             {vehicles.map((v) => (
               <option key={v.id} value={v.id}>

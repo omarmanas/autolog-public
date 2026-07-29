@@ -165,7 +165,7 @@ export const SettingsScreen: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-xl shadow-sm flex items-center justify-between">
+      <div className="token-surface border p-5 rounded-xl shadow-sm flex items-center justify-between">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Settings className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
@@ -195,7 +195,7 @@ export const SettingsScreen: React.FC = () => {
         setCurrencySymbol={setCurrencySymbol}
       />
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+      <div className="token-surface border rounded-xl p-5 shadow-sm space-y-4">
         <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
           <Download className="w-4 h-4 text-emerald-500" />
           <span>Full Application Backup</span>
@@ -275,7 +275,7 @@ export const SettingsScreen: React.FC = () => {
       </div>
 
       {importHistory.length > 0 && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+        <div className="token-surface border rounded-xl p-5 shadow-sm space-y-4">
           <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
             <History className="w-4 h-4 text-blue-500" />
             <span>Import History & Rollback Logs</span>

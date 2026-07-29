@@ -48,6 +48,11 @@ describe('ServiceHistoryScreen filters', () => {
     } as unknown as ReturnType<typeof useApp>);
 
     const markup = renderToStaticMarkup(<ServiceHistoryScreen />);
+    const filterControls = Array.from(
+      markup.matchAll(
+        /<(?:input|select)[^>]*class="([^"]*screen-filter-native-control[^"]*)"/g
+      )
+    );
 
     [
       'Search service records',
@@ -60,6 +65,12 @@ describe('ServiceHistoryScreen filters', () => {
       'Confidence grade',
     ].forEach((name) => {
       expect(markup).toContain(`aria-label="${name}"`);
+    });
+    expect(filterControls).toHaveLength(8);
+    filterControls.forEach(([, className]) => {
+      expect(className).not.toContain('dark:bg-');
+      expect(className).not.toContain('dark:text-');
+      expect(className).not.toContain('dark:border-');
     });
   });
 });

@@ -20,7 +20,7 @@ import { OnboardingScreen } from './components/screens/OnboardingScreen';
 import { resolveStartupView } from './context/startupFlow';
 
 export const StartupLoadingScreen: React.FC = () => (
-  <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center p-6">
+  <div className="app-state-screen min-h-screen flex items-center justify-center p-6">
     <div className="text-center space-y-3">
       <div className="w-9 h-9 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
       <p className="text-sm font-semibold">Loading your garage…</p>
@@ -29,8 +29,8 @@ export const StartupLoadingScreen: React.FC = () => (
 );
 
 export const DatabaseErrorScreen: React.FC<{ error: string }> = ({ error }) => (
-  <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center p-6">
-    <div className="max-w-lg w-full rounded-2xl border border-rose-300 dark:border-rose-900 bg-white dark:bg-slate-900 p-6 shadow-xl space-y-3">
+  <div className="app-state-screen min-h-screen flex items-center justify-center p-6">
+    <div className="token-surface max-w-lg w-full rounded-2xl border border-rose-300 dark:border-rose-900 p-6 shadow-xl space-y-3">
       <h1 className="text-lg font-extrabold text-rose-700 dark:text-rose-300">
         Local database unavailable
       </h1>
@@ -102,7 +102,7 @@ export const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased transition-colors duration-200">
+    <div className="app-shell flex min-h-screen font-sans antialiased transition-colors duration-200">
       {/* Desktop Sidebar */}
       <Sidebar />
 

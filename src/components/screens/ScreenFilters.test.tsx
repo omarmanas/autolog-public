@@ -62,5 +62,8 @@ describe('migrated screen filters', () => {
     expect(markup).toContain('value="High" selected=""');
     expect(markup).toContain('Critical');
     expect(markup).toContain('Showing 2 issues');
+    expect(markup).toContain('ui-card');
+    expect(markup).toContain('ui-form-control');
+    expect(markup).not.toContain('dark:bg-');
   });
 });

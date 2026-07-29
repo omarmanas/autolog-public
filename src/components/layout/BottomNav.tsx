@@ -52,11 +52,11 @@ export const BottomNav: React.FC = () => {
           onClick={() => setShowMoreMenu(false)}
         >
           <div
-            className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-2xl p-4 shadow-2xl animate-in slide-in-from-bottom"
+            className="bottom-navigation__sheet border-t rounded-t-2xl p-4 shadow-2xl animate-in slide-in-from-bottom"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border)] mb-2">
+              <h3 className="font-bold text-sm">
                 All Navigation Screens
               </h3>
               <button
@@ -94,7 +94,7 @@ export const BottomNav: React.FC = () => {
       )}
 
       {/* Main Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-2 py-1 shadow-lg">
+      <nav className="bottom-navigation md:hidden fixed bottom-0 left-0 right-0 z-30 backdrop-blur-md border-t px-2 py-1 shadow-lg">
         <div className="flex items-center justify-around max-w-md mx-auto">
           {primaryItems.map((item) => {
             const isActive = currentScreen === item.id;

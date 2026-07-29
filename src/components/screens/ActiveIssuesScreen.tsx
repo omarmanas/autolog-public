@@ -191,7 +191,7 @@ export const ActiveIssuesScreen: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-20 md:pb-6 text-slate-900 dark:text-slate-100">
+    <div className="screen-root space-y-6 pb-20 md:pb-6">
       {/* Header */}
       <Card className="screen-header-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -235,10 +235,10 @@ export const ActiveIssuesScreen: React.FC = () => {
           filteredIssues.map((iss) => (
             <div
               key={iss.id}
-              className={`bg-white dark:bg-slate-900 border rounded-2xl p-5 shadow-sm space-y-3 transition-all ${
+              className={`token-surface border rounded-2xl p-5 shadow-sm space-y-3 transition-all ${
                 iss.status === 'Resolved'
-                  ? 'border-slate-200 dark:border-slate-800 opacity-75'
-                  : 'border-amber-500/30 dark:border-amber-500/20'
+                  ? 'opacity-75'
+                  : 'token-surface--warning'
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">

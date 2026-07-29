@@ -200,10 +200,10 @@ export const VehiclesScreen: React.FC = () => {
           return (
             <div
               key={v.id}
-              className={`bg-white dark:bg-slate-900 rounded-xl border p-5 shadow-sm space-y-4 transition-all relative overflow-hidden ${
+              className={`token-surface rounded-xl border p-5 shadow-sm space-y-4 transition-all relative overflow-hidden ${
                 isActive
-                  ? 'border-indigo-500 ring-2 ring-indigo-500/20 shadow-indigo-500/10'
-                  : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                  ? 'token-surface--selected ring-2 ring-indigo-500/20 shadow-indigo-500/10'
+                  : 'token-surface--interactive'
               }`}
             >
               {isActive && (

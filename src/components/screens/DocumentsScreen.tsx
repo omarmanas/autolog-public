@@ -153,7 +153,7 @@ export const DocumentsScreen: React.FC = () => {
           filteredDocs.map((doc) => (
             <div
               key={doc.id}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-all flex items-start justify-between gap-3"
+              className="token-surface token-surface--interactive border rounded-xl p-4 shadow-sm transition-all flex items-start justify-between gap-3"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 shrink-0">

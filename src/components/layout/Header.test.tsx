@@ -29,11 +29,18 @@ describe('Header icon controls', () => {
     } as unknown as ReturnType<typeof useApp>);
 
     const markup = renderToStaticMarkup(<Header />);
+    const headerClass = markup.match(/<header class="([^"]+)"/)?.[1] || '';
+    const vehicleSelectClass =
+      markup.match(/<select[^>]*class="([^"]+)"/)?.[1] || '';
 
     expect(markup).toContain('aria-label="Active vehicle"');
     expect(markup).toContain('aria-label="Add record"');
     expect(markup).toContain('aria-label="Project Blueprint"');
     expect(markup).toContain('aria-label="Toggle theme"');
+    expect(headerClass).toContain('app-header');
+    expect(headerClass).not.toContain('dark:bg-');
+    expect(vehicleSelectClass).toContain('app-header__vehicle-select');
+    expect(vehicleSelectClass).not.toContain('dark:bg-');
   });
 
   it('preserves the Project Blueprint callback and exposes a stable name', () => {
