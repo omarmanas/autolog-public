@@ -77,7 +77,11 @@ export async function parseSupportedImportFile(
   }
 
   const buffer = await file.arrayBuffer();
-  return parseImportFile(buffer, file.name, vehicleId);
+  const { read, utils } = await import('xlsx');
+  return parseImportFile(buffer, file.name, vehicleId, {
+    read,
+    utils: { sheet_to_json: utils.sheet_to_json },
+  });
 }
 
 export function ImportWizardModal({ isOpen, onClose }: Props) {

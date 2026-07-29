@@ -12,12 +12,18 @@ import {
   findDuplicates,
   findHeaderRow,
   parseCostSummarySheet,
-  parseImportFile,
+  parseImportFile as parseImportFileWithSpreadsheet,
   ParsedWorkbookData,
   SERVICE_HEADER_SIGNATURE,
 } from './importParser';
 
 const VEHICLE_ID = 'test-import-vehicle';
+
+const parseImportFile = (
+  fileContent: ArrayBuffer | string,
+  fileName: string,
+  vehicleId: string
+) => parseImportFileWithSpreadsheet(fileContent, fileName, vehicleId, XLSX);
 
 function parseFixture() {
   const bytes = createFictionalImportWorkbook();

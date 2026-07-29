@@ -21,7 +21,12 @@ vi.mock('./context/AppContext', () => ({
   useApp: () => mockedAppState.current,
 }));
 
-import { MainContent } from './App';
+import {
+  loadProjectBlueprintScreen,
+  loadSettingsScreen,
+  MainContent,
+  ScreenLoadingFallback,
+} from './App';
 
 describe('application startup gate', () => {
   beforeEach(() => {
@@ -73,5 +78,29 @@ describe('application startup gate', () => {
     expect(markup).toContain('Local database unavailable');
     expect(markup).toContain('Injected IndexedDB failure');
     expect(markup).not.toContain('Welcome to AutoLog');
+  });
+});
+
+describe('lazy screen boundaries', () => {
+  it('renders an accessible loading fallback', () => {
+    const markup = renderToStaticMarkup(<ScreenLoadingFallback />);
+
+    expect(markup).toContain('role="status"');
+    expect(markup).toContain('aria-live="polite"');
+    expect(markup).toContain('Loading screen');
+  });
+
+  it('loads and renders the Project Blueprint navigation target', async () => {
+    const module = await loadProjectBlueprintScreen();
+    const markup = renderToStaticMarkup(<module.ProjectBlueprintScreen />);
+
+    expect(markup).toContain('PRODUCT BLUEPRINT');
+    expect(markup).toContain('Architecture');
+  });
+
+  it('loads the Settings navigation target', async () => {
+    const module = await loadSettingsScreen();
+
+    expect(typeof module.SettingsScreen).toBe('function');
   });
 });

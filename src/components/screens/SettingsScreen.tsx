@@ -16,7 +16,26 @@ import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { FormControl } from '../common/FormControl';
-import { ImportWizardModal } from '../common/ImportWizardModal';
+
+export const loadImportWizardModal = () =>
+  import('../common/ImportWizardModal');
+
+const ImportWizardModal = React.lazy(async () => {
+  const module = await loadImportWizardModal();
+  return { default: module.ImportWizardModal };
+});
+
+export const ImportWizardLoadingFallback: React.FC = () => (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    role="status"
+    aria-live="polite"
+  >
+    <Card className="w-full max-w-sm p-5 text-center text-sm font-semibold">
+      Loading import wizardâ€¦
+    </Card>
+  </div>
+);
 
 interface DisplayAppearanceSettingsProps {
   theme: 'light' | 'dark' | 'system';
@@ -118,6 +137,7 @@ export const SettingsScreen: React.FC = () => {
   } = useApp();
 
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [hasOpenedImportModal, setHasOpenedImportModal] = useState(false);
   const [isRemoveDemoConfirmOpen, setIsRemoveDemoConfirmOpen] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
   const [destructiveError, setDestructiveError] = useState<string | null>(null);
@@ -177,7 +197,10 @@ export const SettingsScreen: React.FC = () => {
         </div>
 
         <button
-          onClick={() => setIsImportModalOpen(true)}
+          onClick={() => {
+            setHasOpenedImportModal(true);
+            setIsImportModalOpen(true);
+          }}
           disabled={isDestructiveDataOperationInProgress}
           className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 disabled:opacity-50 transition-colors shadow-md flex items-center gap-2 shrink-0"
         >
@@ -334,10 +357,14 @@ export const SettingsScreen: React.FC = () => {
         onCancel={() => setIsResetConfirmOpen(false)}
       />
 
-      <ImportWizardModal
-        isOpen={isImportModalOpen}
-        onClose={() => setIsImportModalOpen(false)}
-      />
+      {hasOpenedImportModal && (
+        <React.Suspense fallback={<ImportWizardLoadingFallback />}>
+          <ImportWizardModal
+            isOpen={isImportModalOpen}
+            onClose={() => setIsImportModalOpen(false)}
+          />
+        </React.Suspense>
+      )}
     </div>
   );
 };

@@ -2,7 +2,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { Button } from '../common/Button';
-import { DisplayAppearanceSettings } from './SettingsScreen';
+import {
+  DisplayAppearanceSettings,
+  ImportWizardLoadingFallback,
+} from './SettingsScreen';
 
 const getText = (node: React.ReactNode): string => {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -91,5 +94,15 @@ describe('DisplayAppearanceSettings', () => {
     expect(toggleTheme).toHaveBeenCalledOnce();
     expect(setUnitSystem).toHaveBeenCalledExactlyOnceWith('km');
     expect(setCurrencySymbol).toHaveBeenCalledExactlyOnceWith('£');
+  });
+});
+
+describe('Import Wizard lazy boundary', () => {
+  it('renders an accessible loading fallback', () => {
+    const markup = renderToStaticMarkup(<ImportWizardLoadingFallback />);
+
+    expect(markup).toContain('role="status"');
+    expect(markup).toContain('aria-live="polite"');
+    expect(markup).toContain('Loading import wizard');
   });
 });

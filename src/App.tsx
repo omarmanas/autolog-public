@@ -14,10 +14,33 @@ import { ActiveIssuesScreen } from './components/screens/ActiveIssuesScreen';
 import { MaintenancePlannerScreen } from './components/screens/MaintenancePlannerScreen';
 import { CostsScreen } from './components/screens/CostsScreen';
 import { DocumentsScreen } from './components/screens/DocumentsScreen';
-import { SettingsScreen } from './components/screens/SettingsScreen';
-import { ProjectBlueprintScreen } from './components/screens/ProjectBlueprintScreen';
 import { OnboardingScreen } from './components/screens/OnboardingScreen';
 import { resolveStartupView } from './context/startupFlow';
+
+export const loadSettingsScreen = () =>
+  import('./components/screens/SettingsScreen');
+export const loadProjectBlueprintScreen = () =>
+  import('./components/screens/ProjectBlueprintScreen');
+
+const SettingsScreen = React.lazy(async () => {
+  const module = await loadSettingsScreen();
+  return { default: module.SettingsScreen };
+});
+
+const ProjectBlueprintScreen = React.lazy(async () => {
+  const module = await loadProjectBlueprintScreen();
+  return { default: module.ProjectBlueprintScreen };
+});
+
+export const ScreenLoadingFallback: React.FC = () => (
+  <div
+    className="token-surface rounded-xl border p-6 text-sm font-semibold"
+    role="status"
+    aria-live="polite"
+  >
+    Loading screenâ€¦
+  </div>
+);
 
 export const StartupLoadingScreen: React.FC = () => (
   <div className="app-state-screen min-h-screen flex items-center justify-center p-6">
@@ -112,7 +135,9 @@ export const MainContent: React.FC = () => {
 
         <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl w-full mx-auto">
           <ErrorBoundary>
-            {renderScreen()}
+            <React.Suspense fallback={<ScreenLoadingFallback />}>
+              {renderScreen()}
+            </React.Suspense>
           </ErrorBoundary>
         </main>
 

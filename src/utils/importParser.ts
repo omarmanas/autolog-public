@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import type * as SheetJS from 'xlsx';
 import {
   ServiceRecord,
   ActiveIssue,
@@ -96,6 +96,13 @@ export interface ParsedWorkbookData {
   reconciliationErrors?: string[];
   reconciliation: ReconciliationReport;
 }
+
+type SpreadsheetReader = {
+  read: typeof SheetJS.read;
+  utils: {
+    sheet_to_json: typeof SheetJS.utils.sheet_to_json;
+  };
+};
 
 export interface DuplicateMatch {
   record: ServiceRecord;
@@ -267,7 +274,8 @@ export function findHeaderRow(
 export function parseImportFile(
   fileContent: ArrayBuffer | string,
   fileName: string,
-  vehicleId: string
+  vehicleId: string,
+  spreadsheet: SpreadsheetReader
 ): ParsedWorkbookData {
   const result: ParsedWorkbookData = {
     sheetsFound: [],
@@ -297,7 +305,7 @@ export function parseImportFile(
   };
 
   try {
-    let workbook: XLSX.WorkBook;
+    let workbook: SheetJS.WorkBook;
 
     if (fileName.toLowerCase().endsWith('.json')) {
       const text = typeof fileContent === 'string' ? fileContent : new TextDecoder().decode(fileContent);
@@ -329,9 +337,9 @@ export function parseImportFile(
     }
 
     if (typeof fileContent === 'string') {
-      workbook = XLSX.read(fileContent, { type: 'string', cellDates: true });
+      workbook = spreadsheet.read(fileContent, { type: 'string', cellDates: true });
     } else {
-      workbook = XLSX.read(fileContent, { type: 'array', cellDates: true });
+      workbook = spreadsheet.read(fileContent, { type: 'array', cellDates: true });
     }
 
     result.sheetsFound = workbook.SheetNames;
@@ -345,7 +353,7 @@ export function parseImportFile(
         const normName = normalizeHeader(sheetName);
         const sheet = workbook.Sheets[sheetName];
         if (sheet) {
-          const matrix: any[][] = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+          const matrix: any[][] = spreadsheet.utils.sheet_to_json(sheet, { header: 1, defval: '' });
           if (normName.includes('costsummary')) {
             parseCostSummarySheet(matrix, result);
           } else if (normName.includes('datagaps')) {
@@ -358,7 +366,7 @@ export function parseImportFile(
 
       result.canonicalSheets.push(sheetName);
       const sheet = workbook.Sheets[sheetName];
-      const matrix: any[][] = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+      const matrix: any[][] = spreadsheet.utils.sheet_to_json(sheet, { header: 1, defval: '' });
 
       // A. MASTER SERVICE HISTORY ONLY
       if (sheetType === 'master') {

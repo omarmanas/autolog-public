@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import * as XLSX from 'xlsx';
 import { createFictionalImportWorkbook } from '../../test/fixtures';
 import {
   evaluateReconciliationGate,
@@ -37,6 +38,28 @@ describe('ImportWizardModal file format validation', () => {
     );
     expect(arrayBuffer).not.toHaveBeenCalled();
   });
+
+  it('parses a supported XLSX workbook through the lazy SheetJS path', async () => {
+    const bytes = createFictionalImportWorkbook();
+    const buffer = bytes.buffer.slice(
+      bytes.byteOffset,
+      bytes.byteOffset + bytes.byteLength
+    );
+    const arrayBuffer = vi.fn().mockResolvedValue(buffer);
+
+    const parsed = await parseSupportedImportFile(
+      {
+        name: 'fictional-maintenance.xlsx',
+        arrayBuffer,
+      },
+      'test-import-vehicle'
+    );
+
+    expect(arrayBuffer).toHaveBeenCalledOnce();
+    expect(parsed.records).toHaveLength(4);
+    expect(parsed.issues).toHaveLength(2);
+    expect(parsed.maintenanceTasks).toHaveLength(2);
+  });
 });
 
 describe('ImportWizardModal Step 2 navigation gate', () => {
@@ -44,7 +67,8 @@ describe('ImportWizardModal Step 2 navigation gate', () => {
   const validParsedData = parseImportFile(
     bytes.buffer,
     'fictional-maintenance.xlsx',
-    'test-import-vehicle'
+    'test-import-vehicle',
+    XLSX
   );
   const canonicalSelectedSheets: Record<string, boolean> = {
     'Master Service History': true,
