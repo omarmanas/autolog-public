@@ -575,6 +575,51 @@ body,
   width: min(24rem, calc(100vw - var(--space-8)));
 }
 
+.pwa-update-region {
+  position: fixed;
+  right: var(--space-4);
+  bottom: calc(4rem + var(--space-4));
+  z-index: 60;
+  width: min(28rem, calc(100vw - var(--space-8)));
+  pointer-events: none;
+}
+
+.pwa-update-card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 35%,
+    var(--color-border)
+  );
+  box-shadow: 0 12px 32px rgb(11 15 20 / 0.18);
+  pointer-events: auto;
+}
+
+.pwa-update-copy {
+  min-width: 0;
+}
+
+.pwa-update-title {
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.pwa-update-description {
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.pwa-update-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
 @media (min-width: 768px) {
   .toast-region {
     top: calc(var(--layout-header-height) + var(--space-4));
@@ -588,6 +633,25 @@ body,
           2 + var(--space-8)
       )
     );
+  }
+
+  .pwa-update-region {
+    right: max(
+      var(--space-8),
+      calc(
+        (
+            100vw - var(--layout-sidebar-width) -
+              var(--layout-content-max-width)
+          ) /
+          2 + var(--space-8)
+      )
+    );
+    bottom: var(--space-8);
+  }
+
+  .pwa-update-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
   }
 }
 

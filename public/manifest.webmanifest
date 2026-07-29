@@ -1,0 +1,36 @@
+{
+  "name": "AutoLog",
+  "short_name": "AutoLog",
+  "description": "A local-first personal vehicle maintenance, service, issue, document, and cost tracker.",
+  "start_url": "/autolog-public/",
+  "scope": "/autolog-public/",
+  "display": "standalone",
+  "theme_color": "#0B0F14",
+  "background_color": "#0B0F14",
+  "icons": [
+    {
+      "src": "icons/autolog-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/autolog-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/autolog-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/autolog-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

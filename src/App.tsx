@@ -5,6 +5,7 @@ import { Header } from './components/layout/Header';
 import { BottomNav } from './components/layout/BottomNav';
 import { ToastNotification } from './components/common/Toast';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { PwaUpdatePrompt } from './components/common/PwaUpdatePrompt';
 
 import { DashboardScreen } from './components/screens/DashboardScreen';
 import { VehiclesScreen } from './components/screens/VehiclesScreen';
@@ -156,6 +157,7 @@ export default function App() {
     <ErrorBoundary>
       <AppProvider>
         <MainContent />
+        <PwaUpdatePrompt />
       </AppProvider>
     </ErrorBoundary>
   );
