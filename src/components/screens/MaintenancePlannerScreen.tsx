@@ -6,6 +6,11 @@ import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { EmptyState } from '../common/EmptyState';
+import { FormControl } from '../common/FormControl';
+import {
+  ModalShell,
+  PASSIVE_MODAL_BEHAVIOR,
+} from '../common/ModalShell';
 import {
   CalendarCheck,
   Gauge,
@@ -18,7 +23,6 @@ import {
   Wrench,
   Edit,
   Trash2,
-  X,
 } from 'lucide-react';
 
 interface PlanEditButtonProps {
@@ -314,144 +318,147 @@ export const MaintenancePlannerScreen: React.FC = () => {
 
       {/* Add / Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <h3 className="text-lg font-bold flex items-center gap-2">
+        <ModalShell
+          isOpen
+          title={
+            <span className="flex items-center gap-2">
                 <CalendarCheck className="w-5 h-5 text-indigo-600" />
                 <span>{editingPlan ? 'Edit Maintenance Plan' : 'Create Maintenance Plan'}</span>
-              </h3>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-1 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            </span>
+          }
+          onClose={() => setShowModal(false)}
+          {...PASSIVE_MODAL_BEHAVIOR}
+          className="max-w-lg"
+        >
 
             <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-bold mb-1">Maintenance Title *</label>
+              <FormControl
+                className="modal-form-control"
+                label="Maintenance Title *"
+              >
                 <input
                   type="text"
                   required
                   placeholder="e.g. Engine Oil & Filter Change, Tire Rotation"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium"
+                  className="font-medium"
                 />
-              </div>
+              </FormControl>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold mb-1">Category</label>
+                <FormControl className="modal-form-control" label="Category">
                   <input
                     type="text"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                   />
-                </div>
+                </FormControl>
 
-                <div>
-                  <label className="block font-bold mb-1">Status</label>
+                <FormControl className="modal-form-control" label="Status">
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as MaintenanceRuleStatus)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold"
+                    className="font-bold"
                   >
                     <option value="OK">OK</option>
                     <option value="Due Soon">Due Soon</option>
                     <option value="Overdue">Overdue</option>
                     <option value="Upcoming">Upcoming</option>
                   </select>
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold mb-1">Interval Miles</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Interval Miles"
+                >
                   <input
                     type="number"
                     min="500"
                     step="500"
                     value={intervalMiles}
                     onChange={(e) => setIntervalMiles(Number(e.target.value))}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
+                </FormControl>
 
-                <div>
-                  <label className="block font-bold mb-1">Interval Months</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Interval Months"
+                >
                   <input
                     type="number"
                     min="1"
                     value={intervalMonths}
                     onChange={(e) => setIntervalMonths(Number(e.target.value))}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold mb-1">Target Due Mileage (mi) *</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Target Due Mileage (mi) *"
+                >
                   <input
                     type="number"
                     min="0"
                     value={dueMileage}
                     onChange={(e) => setDueMileage(Number(e.target.value))}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold"
+                    className="font-mono font-bold"
                   />
-                </div>
+                </FormControl>
 
-                <div>
-                  <label className="block font-bold mb-1">Estimated Cost ($)</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Estimated Cost ($)"
+                >
                   <input
                     type="number"
                     min="0"
                     step="0.01"
                     value={estimatedCost}
                     onChange={(e) => setEstimatedCost(e.target.value)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
+                </FormControl>
               </div>
 
-              <div>
-                <label className="block font-bold mb-1">Plan Notes & Factory Recommendations</label>
+              <FormControl
+                className="modal-form-control"
+                label="Plan Notes & Factory Recommendations"
+              >
                 <textarea
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="e.g. Follow the manufacturer interval and fluid specification..."
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                 />
-              </div>
+              </FormControl>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-                <button
-                  type="button"
+                <Button
+                  variant="secondary"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting
                     ? 'Saving…'
                     : editingPlan
                       ? 'Update Plan'
                       : 'Save Plan'}
-                </button>
+                </Button>
               </div>
             </form>
-          </div>
-        </div>
+        </ModalShell>
       )}
 
       {/* Confirm Delete */}

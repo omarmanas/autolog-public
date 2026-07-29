@@ -37,4 +37,19 @@ describe('FormControl', () => {
     expect(markup).toContain('data-disabled="true"');
     expect(markup).toContain('disabled=""');
   });
+
+  it('preserves a modal field value and associates its accessible label', () => {
+    const markup = renderToStaticMarkup(
+      <FormControl label="Issue Title / Description *">
+        <input value="Brake noise" required readOnly />
+      </FormControl>
+    );
+
+    const controlId = markup.match(/<label[^>]*for="([^"]+)"/)?.[1];
+    expect(controlId).toBeTruthy();
+    expect(markup).toContain(`id="${controlId}"`);
+    expect(markup).toContain('value="Brake noise"');
+    expect(markup).toContain('required=""');
+    expect(markup).toContain('Issue Title / Description *');
+  });
 });

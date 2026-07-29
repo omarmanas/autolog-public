@@ -38,4 +38,16 @@ describe('Button', () => {
     expect(markup).toContain('aria-label="Open options"');
     expect(markup).toContain('ui-button--icon-only');
   });
+
+  it('forwards submit type and disabled state for modal forms', () => {
+    const markup = renderToStaticMarkup(
+      <Button type="submit" disabled>
+        Saving…
+      </Button>
+    );
+
+    expect(markup).toContain('type="submit"');
+    expect(markup).toContain('disabled=""');
+    expect(markup).toContain('Saving…');
+  });
 });

@@ -343,6 +343,13 @@
   padding: var(--space-4);
 }
 
+.modal-form-control > input,
+.modal-form-control > select,
+.modal-form-control > textarea {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+}
+
 @media (max-width: 639px) {
   .screen-filter-card--inline {
     align-items: stretch;

@@ -4,6 +4,11 @@ import { Vehicle } from '../../types';
 import { createEntityId } from '../../utils/ids';
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
+import { FormControl } from '../common/FormControl';
+import {
+  ModalShell,
+  PASSIVE_MODAL_BEHAVIOR,
+} from '../common/ModalShell';
 import {
   Car,
   Plus,
@@ -12,7 +17,6 @@ import {
   Calendar,
   Sparkles,
   Info,
-  X,
   Edit,
   Wrench,
 } from 'lucide-react';
@@ -329,173 +333,161 @@ export const VehiclesScreen: React.FC = () => {
 
       {/* Add / Edit Vehicle Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+        <ModalShell
+          isOpen
+          title={
+            <span className="flex items-center gap-2">
                 <Car className="w-5 h-5 text-indigo-600" />
                 <span>{editingVehicle ? 'Edit Vehicle Profile' : 'Add Fleet Vehicle'}</span>
-              </h3>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-1 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            </span>
+          }
+          onClose={() => setShowModal(false)}
+          {...PASSIVE_MODAL_BEHAVIOR}
+          className="max-w-lg"
+        >
 
             <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Make *</label>
+                <FormControl className="modal-form-control" label="Make *">
                   <input
                     type="text"
                     required
                     placeholder="e.g. Aurora"
                     value={formMake}
                     onChange={(e) => setFormMake(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                   />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Model *</label>
+                </FormControl>
+                <FormControl className="modal-form-control" label="Model *">
                   <input
                     type="text"
                     required
                     placeholder="e.g. Cityline"
                     value={formModel}
                     onChange={(e) => setFormModel(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                   />
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Year</label>
+                <FormControl className="modal-form-control" label="Year">
                   <input
                     type="number"
                     min="1900"
                     max="2030"
                     value={formYear}
                     onChange={(e) => setFormYear(Number(e.target.value))}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Trim Level</label>
+                </FormControl>
+                <FormControl className="modal-form-control" label="Trim Level">
                   <input
                     type="text"
                     placeholder="e.g. Touring L 3.6L"
                     value={formTrim}
                     onChange={(e) => setFormTrim(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                   />
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">VIN</label>
+                <FormControl className="modal-form-control" label="VIN">
                   <input
                     type="text"
                     placeholder="17 character VIN"
                     value={formVin}
                     onChange={(e) => setFormVin(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono uppercase"
+                    className="font-mono uppercase"
                   />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">License Plate</label>
+                </FormControl>
+                <FormControl className="modal-form-control" label="License Plate">
                   <input
                     type="text"
                     placeholder="e.g. DEMO-123"
                     value={formPlate}
                     onChange={(e) => setFormPlate(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono uppercase"
+                    className="font-mono uppercase"
                   />
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Current Mileage (mi)</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Current Mileage (mi)"
+                >
                   <input
                     type="number"
                     min="0"
                     value={formMileage}
                     onChange={(e) => setFormMileage(Number(e.target.value))}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Engine Spec</label>
+                </FormControl>
+                <FormControl className="modal-form-control" label="Engine Spec">
                   <input
                     type="text"
                     value={formEngine}
                     onChange={(e) => setFormEngine(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                   />
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Oil Specification</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Oil Specification"
+                >
                   <input
                     type="text"
                     placeholder="e.g. SAE 0W-20 MS-6395"
                     value={formOil}
                     onChange={(e) => setFormOil(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Tire Size</label>
+                </FormControl>
+                <FormControl className="modal-form-control" label="Tire Size">
                   <input
                     type="text"
                     placeholder="e.g. 235/65R17"
                     value={formTires}
                     onChange={(e) => setFormTires(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
+                </FormControl>
               </div>
 
-              <div>
-                <label className="block font-semibold mb-1 text-slate-700 dark:text-slate-300">Notes / Documentation</label>
+              <FormControl
+                className="modal-form-control"
+                label="Notes / Documentation"
+              >
                 <textarea
                   rows={2}
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   placeholder="Additional notes about this vehicle..."
-                  className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                 ></textarea>
-              </div>
+              </FormControl>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-                <button
-                  type="button"
+                <Button
+                  variant="secondary"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting
                     ? 'Saving…'
                     : editingVehicle
                       ? 'Update Vehicle'
                       : 'Save Vehicle'}
-                </button>
+                </Button>
               </div>
             </form>
-          </div>
-        </div>
+        </ModalShell>
       )}
     </div>
   );

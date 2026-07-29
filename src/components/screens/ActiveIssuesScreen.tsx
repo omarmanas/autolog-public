@@ -7,13 +7,16 @@ import { Card } from '../common/Card';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { EmptyState } from '../common/EmptyState';
 import { FormControl } from '../common/FormControl';
+import {
+  ModalShell,
+  PASSIVE_MODAL_BEHAVIOR,
+} from '../common/ModalShell';
 import { formatMileage } from '../../utils/formatters';
 import {
   AlertTriangle,
   Plus,
   CheckCircle2,
   Calendar,
-  X,
   Gauge,
   Tag,
   Wrench,
@@ -308,55 +311,56 @@ export const ActiveIssuesScreen: React.FC = () => {
 
       {/* Add / Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <h3 className="text-lg font-bold flex items-center gap-2">
+        <ModalShell
+          isOpen
+          title={
+            <span className="flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-amber-500" />
                 <span>{editingIssue ? 'Edit Issue' : 'Report Active Issue / Defect'}</span>
-              </h3>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-1 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            </span>
+          }
+          onClose={() => setShowModal(false)}
+          {...PASSIVE_MODAL_BEHAVIOR}
+          className="max-w-lg"
+        >
 
             <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-bold mb-1">Issue Title / Description *</label>
+              <FormControl
+                className="modal-form-control"
+                label="Issue Title / Description *"
+              >
                 <input
                   type="text"
                   required
                   placeholder="e.g. Squeaking noise when turning left, Check Engine Light P0300"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium"
+                  className="font-medium"
                 />
-              </div>
+              </FormControl>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold mb-1">Severity *</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Severity *"
+                >
                   <select
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value as IssueSeverity)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold"
+                    className="font-bold"
                   >
                     <option value="Low">Low (Cosmetic / Minor)</option>
                     <option value="Medium">Medium (Attention Soon)</option>
                     <option value="High">High (Immediate Repair)</option>
                     <option value="Critical">Critical (Do Not Drive)</option>
                   </select>
-                </div>
+                </FormControl>
 
-                <div>
-                  <label className="block font-bold mb-1">Status *</label>
+                <FormControl className="modal-form-control" label="Status *">
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as IssueStatus)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold"
+                    className="font-bold"
                   >
                     <option value="Open">Open</option>
                     <option value="Investigating">Investigating</option>
@@ -364,89 +368,95 @@ export const ActiveIssuesScreen: React.FC = () => {
                     <option value="Scheduled">Scheduled</option>
                     <option value="Resolved">Resolved</option>
                   </select>
-                </div>
+                </FormControl>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold mb-1">Reported Date</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Reported Date"
+                >
                   <input
                     type="date"
                     value={reportedDate}
                     onChange={(e) => setReportedDate(e.target.value)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                    className="font-mono"
                   />
-                </div>
+                </FormControl>
 
-                <div>
-                  <label className="block font-bold mb-1">Reported Mileage (mi)</label>
+                <FormControl
+                  className="modal-form-control"
+                  label="Reported Mileage (mi)"
+                >
                   <input
                     type="number"
                     min="0"
-                  value={reportedMileage}
-                  onChange={(e) => setReportedMileage(e.target.value)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold"
+                    value={reportedMileage}
+                    onChange={(e) => setReportedMileage(e.target.value)}
+                    className="font-mono font-bold"
                   />
-                </div>
+                </FormControl>
               </div>
 
-              <div>
-                <label className="block font-bold mb-1">Estimated Repair Cost ($)</label>
+              <FormControl
+                className="modal-form-control"
+                label="Estimated Repair Cost ($)"
+              >
                 <input
                   type="number"
                   min="0"
                   step="0.01"
                   value={estimatedCost}
                   onChange={(e) => setEstimatedCost(e.target.value)}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-amber-600"
+                  className="font-mono font-bold text-amber-600"
                 />
-              </div>
+              </FormControl>
 
-              <div>
-                <label className="block font-bold mb-1">Detailed Symptoms & Notes</label>
+              <FormControl
+                className="modal-form-control"
+                label="Detailed Symptoms & Notes"
+              >
                 <textarea
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe when the noise occurs, DTC error codes, steps to reproduce..."
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                 />
-              </div>
+              </FormControl>
 
-              <div>
-                <label className="block font-bold mb-1">Tags (comma-separated)</label>
+              <FormControl
+                className="modal-form-control"
+                label="Tags (comma-separated)"
+              >
                 <input
                   type="text"
                   value={tagsInput}
                   onChange={(e) => setTagsInput(e.target.value)}
                   placeholder="e.g. brakes, noise, dtc"
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"
+                  className="font-mono"
                 />
-              </div>
+              </FormControl>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-                <button
-                  type="button"
+                <Button
+                  variant="secondary"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting
                     ? 'Saving…'
                     : editingIssue
                       ? 'Update Issue'
                       : 'Report Issue'}
-                </button>
+                </Button>
               </div>
             </form>
-          </div>
-        </div>
+        </ModalShell>
       )}
 
       {/* Delete Confirmation */}

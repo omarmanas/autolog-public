@@ -23,6 +23,35 @@ export const handleModalEscape = (
   return true;
 };
 
+export const restoreModalFocus = (
+  previouslyFocused: Pick<HTMLElement, 'focus'> | null,
+  enabled = true
+) => {
+  if (!enabled || !previouslyFocused) return false;
+
+  previouslyFocused.focus();
+  return true;
+};
+
+export const handleModalOverlayMouseDown = (
+  event: Pick<React.MouseEvent<HTMLDivElement>, 'target' | 'currentTarget'>,
+  onClose: () => void,
+  enabled = true
+) => {
+  if (!enabled || event.target !== event.currentTarget) return false;
+
+  onClose();
+  return true;
+};
+
+export const PASSIVE_MODAL_BEHAVIOR = {
+  closeOnEscape: false,
+  closeOnOverlayClick: false,
+  autoFocus: false,
+  trapFocus: false,
+  restoreFocus: false,
+} as const;
+
 export interface ModalShellProps {
   isOpen: boolean;
   title: React.ReactNode;
@@ -33,6 +62,9 @@ export interface ModalShellProps {
   closeOnOverlayClick?: boolean;
   showCloseButton?: boolean;
   initialFocusRef?: React.RefObject<HTMLElement | null>;
+  autoFocus?: boolean;
+  trapFocus?: boolean;
+  restoreFocus?: boolean;
   className?: string;
 }
 
@@ -46,6 +78,9 @@ export const ModalShell: React.FC<ModalShellProps> = ({
   closeOnOverlayClick = true,
   showCloseButton = true,
   initialFocusRef,
+  autoFocus = true,
+  trapFocus = true,
+  restoreFocus = true,
   className = '',
 }) => {
   const titleId = `modal-title-${useId()}`;
@@ -64,16 +99,18 @@ export const ModalShell: React.FC<ModalShellProps> = ({
         ? document.activeElement
         : null;
     const dialog = dialogRef.current;
-    const focusTarget =
-      initialFocusRef?.current ||
-      dialog?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR) ||
-      dialog;
+    if (autoFocus) {
+      const focusTarget =
+        initialFocusRef?.current ||
+        dialog?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR) ||
+        dialog;
 
-    focusTarget?.focus();
+      focusTarget?.focus();
+    }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (handleModalEscape(event, onCloseRef.current, closeOnEscape)) return;
-      if (event.key !== 'Tab' || !dialog) return;
+      if (!trapFocus || event.key !== 'Tab' || !dialog) return;
 
       const focusable = Array.from(
         dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
@@ -99,9 +136,16 @@ export const ModalShell: React.FC<ModalShellProps> = ({
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      previouslyFocused?.focus();
+      restoreModalFocus(previouslyFocused, restoreFocus);
     };
-  }, [closeOnEscape, initialFocusRef, isOpen]);
+  }, [
+    autoFocus,
+    closeOnEscape,
+    initialFocusRef,
+    isOpen,
+    restoreFocus,
+    trapFocus,
+  ]);
 
   if (!isOpen) return null;
 
@@ -109,9 +153,7 @@ export const ModalShell: React.FC<ModalShellProps> = ({
     <div
       className="ui-modal-overlay"
       onMouseDown={(event) => {
-        if (closeOnOverlayClick && event.target === event.currentTarget) {
-          onClose();
-        }
+        handleModalOverlayMouseDown(event, onClose, closeOnOverlayClick);
       }}
     >
       <div

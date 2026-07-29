@@ -6,6 +6,10 @@ import { Card } from '../common/Card';
 import { EmptyState } from '../common/EmptyState';
 import { FormControl } from '../common/FormControl';
 import {
+  ModalShell,
+  PASSIVE_MODAL_BEHAVIOR,
+} from '../common/ModalShell';
+import {
   FileText,
   UploadCloud,
   Plus,
@@ -13,7 +17,6 @@ import {
   Download,
   Eye,
   Trash2,
-  X,
   File,
 } from 'lucide-react';
 
@@ -183,42 +186,41 @@ export const DocumentsScreen: React.FC = () => {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+        <ModalShell
+          isOpen
+          title={
+            <span className="flex items-center gap-2">
                 <UploadCloud className="w-5 h-5 text-indigo-600" />
                 <span>Upload Document PDF</span>
-              </h3>
-              <button
-                onClick={() => setShowUploadModal(false)}
-                className="p-1 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            </span>
+          }
+          onClose={() => setShowUploadModal(false)}
+          {...PASSIVE_MODAL_BEHAVIOR}
+          className="max-w-md"
+        >
 
             <form onSubmit={handleUploadSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Document Title *
-                </label>
+              <FormControl
+                className="modal-form-control"
+                label="Document Title *"
+              >
                 <input
                   type="text"
                   required
                   placeholder="e.g. Annual Smog Inspection Report"
                   value={docTitle}
                   onChange={(e) => setDocTitle(e.target.value)}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800"
                 />
-              </div>
+              </FormControl>
 
-              <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Document Category</label>
+              <FormControl
+                className="modal-form-control"
+                label="Document Category"
+              >
                 <select
                   value={docCategory}
                   onChange={(e) => setDocCategory(e.target.value as DocumentItem['category'])}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-semibold"
+                  className="font-semibold"
                 >
                   <option value="Invoice">Invoice / Receipt</option>
                   <option value="Manual">Manual</option>
@@ -226,36 +228,32 @@ export const DocumentsScreen: React.FC = () => {
                   <option value="Warranty">Warranty</option>
                   <option value="Inspection">Inspection Report</option>
                 </select>
-              </div>
+              </FormControl>
 
-              <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">File Name</label>
+              <FormControl className="modal-form-control" label="File Name">
                 <input
                   type="text"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
-                  className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono"
+                  className="font-mono"
                 />
-              </div>
+              </FormControl>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
-                <button
-                  type="button"
+                <Button
+                  variant="secondary"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-md"
                 >
                   Upload
-                </button>
+                </Button>
               </div>
             </form>
-          </div>
-        </div>
+        </ModalShell>
       )}
     </div>
   );
