@@ -59,7 +59,7 @@ describe('full JSON backup generation', () => {
 
     expect(backup.format).toBe(BACKUP_FORMAT);
     expect(backup.formatVersion).toBe(BACKUP_FORMAT_VERSION);
-    expect(backup.appVersion).toBe('0.9.1-personal');
+    expect(backup.appVersion).toBe('1.0.0');
     expect(backup.appVersion).toBe(APP_VERSION);
     expect(backup.database).toEqual({ name: 'AutoLogDB', version: 1 });
     expect(backup.data.vehicles).toEqual(snapshot.vehicles);
@@ -201,8 +201,8 @@ describe('full JSON backup generation', () => {
       exportedAt: '2026-07-27T12:34:56.000Z',
     });
 
-    expect(artifact.backup.appVersion).toBe('0.9.1-personal');
-    expect(JSON.parse(artifact.json).appVersion).toBe('0.9.1-personal');
+    expect(artifact.backup.appVersion).toBe('1.0.0');
+    expect(JSON.parse(artifact.json).appVersion).toBe('1.0.0');
   });
 });
 

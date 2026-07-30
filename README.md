@@ -2,7 +2,11 @@
 
 AutoLog is a local-first vehicle maintenance application for tracking vehicles, service records, active issues, maintenance plans, document metadata, and operating costs.
 
+Current release: 1.0.0.
+
 Live application: https://omarmanas.github.io/autolog-public/
+
+AutoLog is installable as a PWA from supported browsers and launches in a standalone app window.
 
 ## Data and privacy
 

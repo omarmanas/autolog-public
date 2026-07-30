@@ -28,7 +28,7 @@ describe('application version metadata', () => {
     ) as { version: string };
 
     expect(APP_VERSION).toBe(packageMetadata.version);
-    expect(APP_VERSION).toBe('0.9.1-personal');
+    expect(APP_VERSION).toBe('1.0.0');
   });
 
   it('uses the injected version in application UI labels', () => {
@@ -36,8 +36,8 @@ describe('application version metadata', () => {
     const blueprintMarkup = renderToStaticMarkup(<ProjectBlueprintScreen />);
 
     expect(sidebarMarkup).toContain(APP_VERSION_LABEL);
-    expect(sidebarMarkup).toContain('AutoLog v0.9.1-personal');
+    expect(sidebarMarkup).toContain('AutoLog v1.0.0');
     expect(blueprintMarkup).toContain(`${APP_VERSION_LABEL} Architecture`);
-    expect(blueprintMarkup).toContain('AutoLog v0.9.1-personal Architecture');
+    expect(blueprintMarkup).toContain('AutoLog v1.0.0 Architecture');
   });
 });
